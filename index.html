@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasense - Hazard Reporting Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --color-background: #0A0A0A;
+            --color-surface: #141414;
+            --color-primary: #3b82f6;
+            --color-primary-light: #60a5fa;
+            --color-border: #27272a;
+            --color-text-primary: #e5e7eb;
+            --color-text-secondary: #9ca3af;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
+            overflow-x: hidden;
+        }
+        
+        /* Improved scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--color-surface);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-primary-light);
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: #1f2937;
+            color: #f3f4f6;
+            border-radius: 8px;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+            border: 1px solid #374151;
+        }
+        .leaflet-popup-content { margin: 13px 19px; line-height: 1.4; }
+        .leaflet-popup-tip { background: #1f2937; }
+        .custom-icon i { text-shadow: 0px 0px 3px black; }
+
+        .pulsing-icon {
+            background-color: var(--color-primary);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .sidebar-link {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.5rem;
+            background-color: rgba(59, 130, 246, 0.15);
+            transition: left 0.3s ease-in-out;
+            z-index: -1;
+        }
+        .sidebar-link:hover::before, .sidebar-link.active::before { left: 0; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-container.loaded { animation: fadeInUp 0.8s ease-out forwards; }
+        .dashboard-item, .social-feed-card { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
+        
+        /* Sidebar minimized styles */
+        .sidebar-minimized aside { width: 5rem; }
+        .sidebar-minimized aside .logo-text, .sidebar-minimized aside .link-text { display: none; }
+        .sidebar-minimized aside .logo-icon { margin-right: 0; }
+        .sidebar-minimized aside .sidebar-link { justify-content: center; }
+        .sidebar-minimized aside #collapse-icon { transform: rotate(180deg); }
+        .sidebar-minimized main, .sidebar-minimized header { margin-left: 5rem; }
+        
+        .social-filter-btn.active {
+             background-color: var(--color-primary);
+             color: white;
+        }
+        
+        /* Variable Proximity Animation */
+        #variable-proximity-title span {
+            display: inline-block;
+            transition: font-variation-settings 0.2s ease-out;
+        }
+
+        /* Gradient Text Animation */
+        .gradient-text {
+            background-image: linear-gradient(90deg, #60a5fa, #ffffff, #60a5fa, #ffffff, #60a5fa);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent !important;
+            animation: gradient-animation 4s linear infinite;
+        }
+
+        @keyframes gradient-animation {
+            to { background-position: 200% center; }
+        }
+
+        /* Gradient Button Animation */
+        .gradient-button {
+             background-image: linear-gradient(90deg, #3b82f6, #ffffff, #3b82f6);
+             background-size: 200% auto;
+             transition: background-position 0.5s ease;
+        }
+        .gradient-button:hover {
+            background-position: right center;
+        }
+
+        /* Gradient Input Border */
+        .gradient-input-border:focus-within {
+            border-color: transparent;
+            position: relative;
+            background-clip: padding-box;
+            border-radius: 10px;
+        }
+        .gradient-input-border:focus-within::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(90deg, #60a5fa, #ffffff);
+            border-radius: 10px;
+        }
+        
+        #interactive-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* New styles for enhanced UI */
+        .hazard-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .hazard-card.high {
+            border-left-color: var(--color-danger);
+        }
+        
+        .hazard-card.medium {
+            border-left-color: var(--color-warning);
+        }
+        
+        .hazard-card.low {
+            border-left-color: var(--color-success);
+        }
+        
+        .wave-animation {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wave-animation::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            animation: wave 3s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes wave {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0%); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid var(--color-primary);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--color-primary); }
+        }
+        
+        .glow {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+        }
+        
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .sidebar-minimized aside { width: 0; }
+            .sidebar-minimized main, .sidebar-minimized header { margin-left: 0; }
+            aside { width: 0; }
+            main, header { margin-left: 0; }
+            
+            #sidebar-toggle-btn {
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 100;
+                background: var(--color-surface);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            aside.active {
+                width: 70vw;
+                z-index: 90;
+            }
+        }
+
+        /* Heatmap styles */
+        .heatmap-gradient {
+            background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+        }
+        
+        /* Notification badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--color-danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Enhanced card hover effects */
+        .enhanced-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .enhanced-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid var(--color-primary);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-black to-gray-900 text-gray-200 flex items-center justify-center min-h-screen">
+
+    <div id="login-page" class="fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-500 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')">
+        <canvas id="interactive-bg"></canvas>
+        <div class="relative z-10 w-full max-w-6xl mx-auto grid md:grid-cols-2" style="height: 85vh;">
+            <div id="variable-proximity-container" class="hidden md:flex items-center justify-center p-12 text-white flex-col">
+                <div id="login-container" class="login-container text-center">
+                    <h1 class="font-black text-8xl leading-tight select-none flex whitespace-nowrap">
+                        <div id="variable-proximity-sea">Sea</div>
+                        <div id="variable-proximity-sense" class="text-blue-400">sense</div>
+                    </h1>
+                    <p class="mt-4 text-xl text-gray-300 typewriter">
+                        Protecting. Monitoring. Reporting.
+                    </p>
+                    <div class="mt-12 grid grid-cols-3 gap-6">
+                        <div class="text-center enhanced-card p-4 rounded-lg bg-black/30 border border-white/10">
+                            <i class="fas fa-shield-alt text-blue-400 text-3xl mb-2"></i>
+                            <h3 class="font-semibold">Protection</h3>
+                            <p class="text-sm text-gray-400 mt-1">Safeguarding coastal communities</p>
+                        </div>
+                        <div class="text-center enhanced-card p-4 rounded-lg bg-black/30 border border-white/10">
+                            <i class="fas fa-chart-line text-green-400 text-3xl mb-2"></i>
+                            <h3 class="font-semibold">Monitoring</h3>
+                            <p class="text-sm text-gray-400 mt-1">Real-time hazard tracking</p>
+                        </div>
+                        <div class="text-center enhanced-card p-4 rounded-lg bg-black/30 border border-white/10">
+                            <i class="fas fa-bullhorn text-yellow-400 text-3xl mb-2"></i>
+                            <h3 class="font-semibold">Reporting</h3>
+                            <p class="text-sm text-gray-400 mt-1">Instant alert system</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-8 sm:p-12 backdrop-blur-2xl flex flex-col justify-center items-center rounded-xl md:rounded-r-xl md:rounded-l-none border border-white/10">
+                <div class="w-full max-w-md">
+                    <div class="text-center mb-8">
+                        <h2 class="font-bold text-3xl gradient-text">Welcome Back</h2>
+                        <p class="text-gray-400 gradient-text" style="animation-duration: 5s;">Sign in to continue to Seasense</p>
+                    </div>
+                    
+                    <div class="flex mb-6 border border-gray-700 rounded-lg">
+                        <button class="tab flex-1 p-3 font-semibold text-white bg-blue-600 rounded-l-md" id="login-tab">Login</button>
+                        <button class="tab flex-1 p-3 text-gray-400" id="signup-tab">Sign Up</button>
+                    </div>
+
+                    <form id="login-form">
+                        <div class="space-y-6">
+                            <div class="gradient-input-border rounded-lg"><input type="email" id="email" placeholder="Email Address" value="user@example.com" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
+                            <div class="gradient-input-border rounded-lg"><input type="password" id="password" placeholder="Password" value="password123" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remember-me" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="remember-me" class="ml-2 block text-sm text-gray-300">Remember me</label>
+                                </div>
+                                <a href="#" class="text-sm text-blue-400 hover:text-blue-300">Forgot password?</a>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <button type="button" id="login-btn" class="gradient-button w-full text-white font-semibold py-3 rounded-lg hover:scale-105 transform transition-all duration-300 flex items-center justify-center">
+                                    <span id="login-text">Sign In</span>
+                                    <div id="login-spinner" class="spinner hidden ml-2" style="width: 20px; height: 20px;"></div>
+                                </button>
+                                <button type="button" id="get-location-login" class="p-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors" title="Get current location"><i class="fas fa-map-marker-alt"></i></button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form id="signup-form" class="hidden">
+                        <div class="space-y-4">
+                             <div class="gradient-input-border rounded-lg"><input type="text" id="name" placeholder="Full Name" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
+                             <div class="gradient-input-border rounded-lg"><input type="email" id="signup-email" placeholder="Email Address" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
+                             <div class="gradient-input-border rounded-lg"><input type="password" id="signup-password" placeholder="Create a password" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
+                             <div class="gradient-input-border rounded-lg"><input type="password" id="confirm-password" placeholder="Confirm password" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
+                             <select id="role" class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                                 <option class="bg-gray-900" value="citizen">Concerned Citizen</option>
+                                 <option class="bg-gray-900" value="official">Government Official</option>
+                                 <option class="bg-gray-900" value="analyst">Data Analyst</option>
+                                 <option class="bg-gray-900" value="responder">First Responder</option>
+                             </select>
+                            <div class="flex items-center space-x-4">
+                                <button type="button" id="signup-btn" class="gradient-button w-full text-white font-semibold py-3 rounded-lg hover:scale-105 transform transition-all duration-300 flex items-center justify-center">
+                                    <span id="signup-text">Create Account</span>
+                                    <div id="signup-spinner" class="spinner hidden ml-2" style="width: 20px; height: 20px;"></div>
+                                </button>
+                                <button type="button" id="get-location-signup" class="p-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors" title="Get current location"><i class="fas fa-map-marker-alt"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div class="mt-8 text-center">
+                        <p class="text-gray-400">Or continue with</p>
+                        <div class="flex justify-center space-x-4 mt-2">
+                            <button class="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
+                                <i class="fab fa-google text-red-400"></i>
+                            </button>
+                            <button class="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
+                                <i class="fab fa-facebook-f text-blue-400"></i>
+                            </button>
+                            <button class="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
+                                <i class="fab fa-twitter text-blue-300"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Report Button -->
+                    <div class="mt-8 text-center border-t border-gray-700 pt-6">
+                        <p class="text-yellow-400 mb-3 text-sm">In an emergency? Report a hazard immediately.</p>
+                        <button id="quick-report-btn" class="w-full bg-red-600 text-white font-semibold py-3 rounded-lg hover:bg-red-700 hover:scale-105 transform transition-all duration-300 flex items-center justify-center glow">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Quick Report
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard" class="hidden h-screen">
+        <header class="fixed top-0 right-0 z-40 bg-black/50 backdrop-blur-lg border-b border-[var(--color-border)] py-3 transition-all duration-300 ml-64">
+            <div class="container mx-auto px-6 flex justify-between items-center">
+                <div class="flex items-center">
+                    <button id="mobile-menu-btn" class="md:hidden mr-4 text-gray-400 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 id="page-title" class="text-2xl font-bold text-white">Dashboard</h2>
+                </div>
+                 <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <button id="notifications-btn" class="text-gray-400 hover:text-white relative">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-right hidden md:block">
+                            <div id="user-name" class="font-semibold text-white"></div>
+                            <small id="user-role" class="text-gray-400"></small>
+                        </div>
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar" id="user-avatar" class="w-10 h-10 rounded-full border-2 border-blue-400">
+                    </div>
+                    <button id="logout-btn" class="text-gray-400 hover:text-white"><i class="fas fa-sign-out-alt text-xl"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <aside class="fixed top-0 left-0 z-50 w-64 h-full bg-cover bg-center border-r border-[var(--color-border)] flex flex-col transition-all duration-300" style="background-image: url('https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')">
+            <div class="absolute inset-0 bg-black/70 backdrop-blur-md"></div>
+            <div class="relative z-10 flex items-center justify-between p-6 border-b border-white/10">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-anchor text-blue-400 text-3xl logo-icon"></i>
+                    <h1 class="text-2xl font-bold text-white logo-text">Sea<span class="text-blue-400">sense</span></h1>
+                </div>
+                <button id="sidebar-toggle-btn" class="text-gray-400 hover:text-white">
+                    <i id="collapse-icon" class="fas fa-chevron-left text-lg transition-transform duration-300"></i>
+                </button>
+            </div>
+            <nav class="relative z-10 flex-1 px-4 py-6 space-y-2">
+                <a href="#" data-view="home-view" class="sidebar-link active group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-tachometer-alt w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Dashboard</span>
+                </a>
+                <a href="#" data-view="analytics-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-chart-pie w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Analytics</span>
+                </a>
+                <a href="#" data-view="map-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-map w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Live Map</span>
+                </a>
+                 <a href="#" data-view="reports-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-file-alt w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Reports</span>
+                </a>
+                <a href="#" data-view="alerts-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-bell w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Alerts</span>
+                    <span class="notification-badge">3</span>
+                </a>
+                <a href="#" data-view="community-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-users w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Social Feed</span>
+                </a>
+                <a href="#" data-view="resources-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-life-ring w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Resources</span>
+                </a>
+                <a href="#" data-view="settings-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-cog w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Settings</span>
+                </a>
+            </nav>
+            <div class="relative z-10 p-4 border-t border-white/10">
+                <div class="bg-blue-900/20 p-3 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-yellow-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-yellow-300">2 active warnings in your area</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="ml-64 flex-1 pt-20 overflow-y-auto transition-all duration-300">
+             <div id="view-container" class="container mx-auto px-6 py-8">
+                <div id="home-view" class="view">
+                    <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+                        <h2 class="text-3xl font-bold text-white">Hazard Dashboard</h2>
+                         <button id="report-btn" class="bg-blue-600 text-white font-semibold px-5 py-3 rounded-lg hover:bg-blue-700 hover:scale-105 transform transition-all duration-300 flex items-center">
+                            <i class="fas fa-plus mr-2"></i> Submit New Report
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                         <div class="dashboard-item group bg-[var(--color-surface)] border border-[var(--color-border)] p-5 rounded-xl hover:border-blue-500/80 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]">
+                            <p class="text-sm text-gray-400">Total Reports</p>
+                            <p class="text-3xl font-bold text-white mt-2" id="total-reports">192</p>
+                            <div class="flex items-center mt-2 text-sm">
+                                <span class="text-green-400 flex items-center">
+                                    <i class="fas fa-arrow-up mr-1"></i> 12%
+                                </span>
+                                <span class="text-gray-400 ml-2">from last week</span>
+                            </div>
+                        </div>
+                        <div class="dashboard-item group bg-[var(--color-surface)] border border-[var(--color-border)] p-5 rounded-xl hover:border-green-500/80 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(34,197,94,0.4)]">
+                            <p class="text-sm text-gray-400">Verified Incidents</p>
+                            <p class="text-3xl font-bold text-white mt-2" id="verified-incidents">87</p>
+                            <div class="w-full bg-gray-700 rounded-full h-2 mt-3">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+                         <div class="dashboard-item group bg-[var(--color-surface)] border border-[var(--color-border)] p-5 rounded-xl hover:border-red-500/80 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]">
+                            <p class="text-sm text-gray-400">Active Hotspots</p>
+                            <p class="text-3xl font-bold text-white mt-2">14</p>
+                            <div class="flex items-center mt-2">
+                                <span class="h-2 w-2 bg-red-500 rounded-full mr-1"></span>
+                                <span class="text-sm text-red-400">3 critical</span>
+                            </div>
+                        </div>
+                        <div class="dashboard-item group bg-[var(--color-surface)] border border-[var(--color-border)] p-5 rounded-xl hover:border-purple-500/80 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+                            <p class="text-sm text-gray-400">Response Time</p>
+                             <p class="text-3xl font-bold text-white mt-2">24m</p>
+                            <div class="flex items-center mt-2 text-sm">
+                                <span class="text-green-400 flex items-center">
+                                    <i class="fas fa-arrow-down mr-1"></i> 5m
+                                </span>
+                                <span class="text-gray-400 ml-2">improvement</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col gap-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2 dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="font-bold text-xl text-white"><i class="fas fa-map-marker-alt text-blue-400 mr-2"></i> Live Hazard Map - India Focus</h3>
+                                    <div class="flex space-x-2">
+                                        <button class="px-3 py-1 text-xs bg-gray-700 rounded-md hover:bg-gray-600">Heatmap</button>
+                                        <button class="px-3 py-1 text-xs bg-gray-700 rounded-md hover:bg-gray-600">Satellite</button>
+                                    </div>
+                                </div>
+                                <div id="map" class="h-[calc(100vh-28rem)] rounded-lg"></div>
+                            </div>
+                            <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                                 <div class="flex justify-between items-center mb-4">
+                                    <h3 class="font-bold text-xl text-white"><i class="fas fa-list text-blue-400 mr-2"></i> Recent Reports</h3>
+                                    <button class="text-blue-400 text-sm">View All</button>
+                                 </div>
+                                 <ul id="recent-reports-list" class="space-y-4"></ul>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                                <h3 class="font-bold text-xl text-white mb-4"><i class="fas fa-chart-bar text-blue-400 mr-2"></i> Hazard Distribution</h3>
+                                <canvas id="mini-chart" height="200"></canvas>
+                            </div>
+                            <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                                <h3 class="font-bold text-xl text-white mb-4"><i class="fas fa-exclamation-triangle text-yellow-400 mr-2"></i> Active Warnings</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-start p-3 bg-yellow-900/20 rounded-lg">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-water text-yellow-400 text-xl mt-1"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="font-semibold text-white">High Wave Alert</h4>
+                                            <p class="text-sm text-gray-300">Eastern Coast - Until 8:00 PM tomorrow</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start p-3 bg-red-900/20 rounded-lg">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-wind text-red-400 text-xl mt-1"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="font-semibold text-white">Storm Warning</h4>
+                                            <p class="text-sm text-gray-300">Western Region - Starting in 6 hours</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                            <h3 class="font-bold text-2xl text-white mb-4">Community & Social Feed</h3>
+                            <div class="flex space-x-2 mb-6 border-b border-gray-700 pb-4 overflow-x-auto">
+                                <button data-platform="all" class="social-filter-btn active px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">All</button>
+                                <button data-platform="x" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">X</button>
+                                <button data-platform="facebook" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Facebook</button>
+                                <button data-platform="instagram" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Instagram</button>
+                                <button data-platform="google" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Google</button>
+                            </div>
+                            <div id="social-feed-container-main" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                               </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="analytics-view" class="view hidden">
+                    <h2 class="text-3xl font-bold text-white mb-6">Analytics & Insights</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                            <h3 class="font-bold text-xl mb-4 text-white">Reports Trend (Last 7 Days)</h3>
+                            <canvas id="reports-chart"></canvas>
+                        </div>
+                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                            <h3 class="font-bold text-xl mb-4 text-white">Hazard Types Distribution</h3>
+                            <canvas id="types-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                            <h3 class="font-bold text-xl mb-4 text-white">Regional Heatmap</h3>
+                            <div class="flex items-center mb-4">
+                                <div class="flex-1 h-4 heatmap-gradient rounded-full"></div>
+                                <div class="text-xs ml-4 text-gray-400">
+                                    <span>Low</span>
+                                    <span class="mx-2">→</span>
+                                    <span>High</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div class="p-4 bg-gray-800 rounded-lg">
+                                    <div class="text-2xl font-bold text-red-400">14</div>
+                                    <div class="text-sm text-gray-400">East Coast</div>
+                                </div>
+                                <div class="p-4 bg-gray-800 rounded-lg">
+                                    <div class="text-2xl font-bold text-yellow-400">8</div>
+                                    <div class="text-sm text-gray-400">West Coast</div>
+                                </div>
+                                <div class="p-4 bg-gray-800 rounded-lg">
+                                    <div class="text-2xl font-bold text-green-400">3</div>
+                                    <div class="text-sm text-gray-400">South</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                            <h3 class="font-bold text-xl mb-4 text-white">Response Metrics</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-400">Verification Time</span>
+                                        <span class="text-white">2.4h</span>
+                                    </div>
+                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                        <div class="bg-blue-500 h-2 rounded-full" style="width: 70%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-400">Resolution Rate</span>
+                                        <span class="text-white">78%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: 78%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-400">False Positives</span>
+                                        <span class="text-white">12%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                        <div class="bg-yellow-500 h-2 rounded-full" style="width: 12%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                        <h3 class="font-bold text-xl mb-4 text-white">All Submitted Reports</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="border-b border-gray-700 text-sm text-gray-400">
+                                        <th class="p-3">ID</th>
+                                        <th class="p-3">Title</th>
+                                        <th class="p-3">Location</th>
+                                        <th class="p-3">Severity</th>
+                                        <th class="p-3">Status</th>
+                                        <th class="p-3">Time</th>
+                                        <th class="p-3">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reports-table-body">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                 <div id="map-view" class="view hidden">
+                     <div class="bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                         <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
+                             <h3 class="font-bold text-xl text-white"><i class="fas fa-map text-blue-400 mr-2"></i> Fullscreen Live Map</h3>
+                             <div class="flex space-x-2">
+                                 <div class="flex items-center space-x-2">
+                                     <div class="flex items-center">
+                                         <div class="w-3 h-3 bg-red-500 rounded-full mr-1"></div>
+                                         <span class="text-sm">High</span>
+                                     </div>
+                                     <div class="flex items-center">
+                                         <div class="w-3 h-3 bg-yellow-500 rounded-full mr-1"></div>
+                                         <span class="text-sm">Medium</span>
+                                     </div>
+                                     <div class="flex items-center">
+                                         <div class="w-3 h-3 bg-green-500 rounded-full mr-1"></div>
+                                         <span class="text-sm">Low</span>
+                                     </div>
+                                 </div>
+                                 <button class="px-3 py-1 text-sm bg-gray-700 rounded-md hover:bg-gray-600">Filter</button>
+                             </div>
+                         </div>
+                         <div id="map-fullscreen" class="h-[75vh] rounded-lg"></div>
+                       </div>
+                 </div>
+                
+                 <div id="reports-view" class="view hidden">
+                     <h2 class="text-3xl font-bold text-white mb-6">Incident Reports</h2>
+                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                         <div class="p-4 bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)]">
+                             <h3 class="font-bold text-lg text-white mb-2">Create New Report</h3>
+                             <p class="text-gray-400 mb-4">Submit a new hazard report with detailed information</p>
+                             <button id="report-view-btn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">New Report</button>
+                         </div>
+                         <div class="p-4 bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)]">
+                             <h3 class="font-bold text-lg text-white mb-2">My Reports</h3>
+                             <p class="text-gray-400 mb-4">View and manage your submitted reports</p>
+                             <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600">View History</button>
+                         </div>
+                         <div class="p-4 bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)]">
+                             <h3 class="font-bold text-lg text-white mb-2">Templates</h3>
+                             <p class="text-gray-400 mb-4">Use pre-defined templates for common hazards</p>
+                             <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600">Browse Templates</button>
+                         </div>
+                     </div>
+                     <div class="bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                         <h3 class="font-bold text-xl text-white mb-4">Recent Reports</h3>
+                         <div class="overflow-x-auto">
+                             <table class="w-full text-left">
+                                 <thead>
+                                     <tr class="border-b border-gray-700 text-sm text-gray-400">
+                                         <th class="p-3">ID</th>
+                                         <th class="p-3">Title</th>
+                                         <th class="p-3">Type</th>
+                                         <th class="p-3">Location</th>
+                                         <th class="p-3">Severity</th>
+                                         <th class="p-3">Status</th>
+                                         <th class="p-3">Time</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr class="border-b border-gray-700 hover:bg-gray-800/50">
+                                         <td class="p-3">RPT-0042</td>
+                                         <td class="p-3">Coastal Erosion</td>
+                                         <td class="p-3">Erosion</td>
+                                         <td class="p-3">Kerala Coast</td>
+                                         <td class="p-3"><span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">Medium</span></td>
+                                         <td class="p-3"><span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs">Investigating</span></td>
+                                         <td class="p-3">2 hours ago</td>
+                                     </tr>
+                                     <tr class="border-b border-gray-700 hover:bg-gray-800/50">
+                                         <td class="p-3">RPT-0041</td>
+                                         <td class="p-3">Oil Spill Sighting</td>
+                                         <td class="p-3">Pollution</td>
+                                         <td class="p-3">Mumbai Harbor</td>
+                                         <td class="p-3"><span class="px-2 py-1 bg-red-500/20 text-red-400 rounded-full text-xs">High</span></td>
+                                         <td class="p-3"><span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">Resolved</span></td>
+                                         <td class="p-3">1 day ago</td>
+                                     </tr>
+                                     <tr class="border-b border-gray-700 hover:bg-gray-800/50">
+                                         <td class="p-3">RPT-0040</td>
+                                         <td class="p-3">Unusual Marine Life Behavior</td>
+                                         <td class="p-3">Wildlife</td>
+                                         <td class="p-3">Andaman Islands</td>
+                                         <td class="p-3"><span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">Low</span></td>
+                                         <td class="p-3"><span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs">Monitoring</span></td>
+                                         <td class="p-3">2 days ago</td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                           </div>
+                     </div>
+                 </div>
+                
+                 <div id="alerts-view" class="view hidden">
+                     <h2 class="text-3xl font-bold text-white mb-6">Alert System</h2>
+                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                         <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                             <h3 class="font-bold text-xl text-white mb-4">Active Alerts</h3>
+                             <div class="space-y-4">
+                                 <div class="p-4 bg-yellow-900/20 rounded-lg border border-yellow-700/50">
+                                     <div class="flex justify-between items-start">
+                                         <div>
+                                             <h4 class="font-semibold text-white">High Wave Warning</h4>
+                                             <p class="text-sm text-gray-300">Eastern Coastline</p>
+                                         </div>
+                                         <span class="px-2 py-1 bg-yellow-500 text-yellow-900 text-xs font-bold rounded">Active</span>
+                                     </div>
+                                     <p class="text-sm text-gray-400 mt-2">Waves expected to reach 3-4 meters height. Avoid coastal areas.</p>
+                                     <div class="flex items-center mt-3 text-xs text-gray-400">
+                                         <i class="far fa-clock mr-1"></i>
+                                         <span>Issued: Today at 08:45 • Expires: Tomorrow at 20:00</span>
+                                     </div>
+                                 </div>
+                                 <div class="p-4 bg-red-900/20 rounded-lg border border-red-700/50">
+                                     <div class="flex justify-between items-start">
+                                         <div>
+                                             <h4 class="font-semibold text-white">Cyclone Alert</h4>
+                                             <p class="text-sm text-gray-300">Bay of Bengal</p>
+                                         </div>
+                                         <span class="px-2 py-1 bg-red-500 text-red-900 text-xs font-bold rounded">Critical</span>
+                                     </div>
+                                     <p class="text-sm text-gray-400 mt-2">Cyclone formation detected. Expected to make landfall in 72 hours.</p>
+                                     <div class="flex items-center mt-3 text-xs text-gray-400">
+                                         <i class="far fa-clock mr-1"></i>
+                                         <span>Issued: Today at 11:30 • Expires: 3 days</span>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                             <h3 class="font-bold text-xl text-white mb-4">Alert Preferences</h3>
+                             <div class="space-y-4">
+                                 <div class="flex items-center justify-between">
+                                     <div>
+                                         <h4 class="font-semibold text-white">Email Notifications</h4>
+                                         <p class="text-sm text-gray-400">Receive alerts via email</p>
+                                     </div>
+                                     <label class="relative inline-flex items-center cursor-pointer">
+                                         <input type="checkbox" class="sr-only peer" checked>
+                                         <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                     </label>
+                                 </div>
+                                 <div class="flex items-center justify-between">
+                                     <div>
+                                         <h4 class="font-semibold text-white">SMS Alerts</h4>
+                                         <p class="text-sm text-gray-400">Receive critical alerts via SMS</p>
+                                     </div>
+                                     <label class="relative inline-flex items-center cursor-pointer">
+                                         <input type="checkbox" class="sr-only peer">
+                                         <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                     </label>
+                                 </div>
+                                 <div class="flex items-center justify-between">
+                                     <div>
+                                         <h4 class="font-semibold text-white">Push Notifications</h4>
+                                         <p class="text-sm text-gray-400">Receive alerts on your device</p>
+                                     </div>
+                                     <label class="relative inline-flex items-center cursor-pointer">
+                                         <input type="checkbox" class="sr-only peer" checked>
+                                         <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                     </label>
+                                 </div>
+                                 <div class="pt-4 border-t border-gray-700">
+                                     <h4 class="font-semibold text-white mb-2">Alert Types</h4>
+                                     <div class="space-y-2">
+                                         <div class="flex items-center">
+                                             <input type="checkbox" id="tsunami-alerts" class="rounded text-blue-600 focus:ring-blue-500" checked>
+                                             <label for="tsunami-alerts" class="ml-2 text-sm text-gray-300">Tsunami Warnings</label>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <input type="checkbox" id="storm-alerts" class="rounded text-blue-600 focus:ring-blue-500" checked>
+                                             <label for="storm-alerts" class="ml-2 text-sm text-gray-300">Storm Warnings</label>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <input type="checkbox" id="pollution-alerts" class="rounded text-blue-600 focus:ring-blue-500" checked>
+                                             <label for="pollution-alerts" class="ml-2 text-sm text-gray-300">Pollution Incidents</label>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <input type="checkbox" id="wildlife-alerts" class="rounded text-blue-600 focus:ring-blue-500">
+                                             <label for="wildlife-alerts" class="ml-2 text-sm text-gray-300">Wildlife Events</label>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                
+                 <div id="community-view" class="view hidden">
+                     <h2 class="text-3xl font-bold text-white mb-6">Community Social Feed</h2>
+                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                         <div class="lg:col-span-2 dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                             <div class="flex space-x-2 mb-6 border-b border-gray-700 pb-4 overflow-x-auto">
+                                 <button data-platform="all" class="social-filter-btn active px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">All</button>
+                                 <button data-platform="x" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">X</button>
+                                 <button data-platform="facebook" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Facebook</button>
+                                 <button data-platform="instagram" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Instagram</button>
+                                 <button data-platform="google" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Google</button>
+                             </div>
+                             <div id="social-feed-container" class="space-y-6">
+                                </div>
+                         </div>
+                         <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                             <h3 class="font-bold text-xl text-white mb-4">Community Leaders</h3>
+                             <div class="space-y-4">
+                                 <div class="flex items-center p-3 bg-gray-800/50 rounded-lg">
+                                     <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="w-10 h-10 rounded-full">
+                                     <div class="ml-3">
+                                         <h4 class="font-semibold text-white">Priya Sharma</h4>
+                                         <p class="text-xs text-gray-400">Mumbai • 42 reports</p>
+                                     </div>
+                                     <div class="ml-auto flex items-center text-yellow-400">
+                                         <i class="fas fa-star"></i>
+                                         <span class="ml-1 text-sm">4.8</span>
+                                     </div>
+                                 </div>
+                                 <div class="flex items-center p-3 bg-gray-800/50 rounded-lg">
+                                     <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="w-10 h-10 rounded-full">
+                                     <div class="ml-3">
+                                         <h4 class="font-semibold text-white">Raj Patel</h4>
+                                         <p class="text-xs text-gray-400">Chennai • 38 reports</p>
+                                     </div>
+                                     <div class="ml-auto flex items-center text-yellow-400">
+                                         <i class="fas fa-star"></i>
+                                         <span class="ml-1 text-sm">4.7</span>
+                                     </div>
+                                 </div>
+                                 <div class="flex items-center p-3 bg-gray-800/50 rounded-lg">
+                                     <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="w-10 h-10 rounded-full">
+                                     <div class="ml-3">
+                                         <h4 class="font-semibold text-white">Anjali Mehta</h4>
+                                         <p class="text-xs text-gray-400">Kerala • 35 reports</p>
+                                     </div>
+                                     <div class="ml-auto flex items-center text-yellow-400">
+                                         <i class="fas fa-star"></i>
+                                         <span class="ml-1 text-sm">4.9</span>
+                                     </div>
+                                 </div>
+                             </div>
+                            
+                             <h3 class="font-bold text-xl text-white mt-8 mb-4">Trending Topics</h3>
+                             <div class="space-y-2">
+                                 <div class="flex items-center justify-between p-2 hover:bg-gray-800/50 rounded-lg cursor-pointer">
+                                     <span class="text-blue-400">#CoastalSafety</span>
+                                     <span class="text-xs text-gray-400">243 posts</span>
+                                 </div>
+                                 <div class="flex items-center justify-between p-2 hover:bg-gray-800/50 rounded-lg cursor-pointer">
+                                     <span class="text-blue-400">#Monsoon2023</span>
+                                     <span class="text-xs text-gray-400">187 posts</span>
+                                 </div>
+                                 <div class="flex items-center justify-between p-2 hover:bg-gray-800/50 rounded-lg cursor-pointer">
+                                     <span class="text-blue-400">#SaveOurOceans</span>
+                                     <span class="text-xs text-gray-400">156 posts</span>
+                                 </div>
+                                 <div class="flex items-center justify-between p-2 hover:bg-gray-800/50 rounded-lg cursor-pointer">
+                                     <span class="text-blue-400">#TsunamiDrill</span>
+                                     <span class="text-xs text-gray-400">132 posts</span>
+                                 </div>

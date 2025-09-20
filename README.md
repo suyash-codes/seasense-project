@@ -1,2 +1,2 @@
-# seasense-project
-seasense
+SeaSense Project
+Our project, SeaSense, is a new platform that aims to improve ocean safety by combining two powerful sources of information: Crowdsourced data + Social Media Analytics. By using crowdsourced data, we allow the people present on the coast to report hazards in real-time through a website and mobile application. Incorporating social media analytics to automatically scan platforms for potential dangers lets us pick up anything similar to a distress call. All this info is reflected on a dashboard, which is used to throw alerts and inform users of affected areas. 

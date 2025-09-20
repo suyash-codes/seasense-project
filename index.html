@@ -25,10 +25,18 @@
             --color-danger: #ef4444;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        .light-theme {
+            --color-background: #F9FAFB;
+            --color-surface: #FFFFFF;
+            --color-border: #E5E7EB;
+            --color-primary: #0A66C2;
+            --color-primary-light: #2563EB;
+            --color-text-primary: #1F2937;
+            --color-text-secondary: #6B7280;
+            --color-success: #10b981;
+            --color-warning: #F59E0B;
+            --color-danger: #DC2626;
+            --color-accent-aqua: #14B8A6;
         }
 
         body {
@@ -36,8 +44,145 @@
             background-color: var(--color-background);
             color: var(--color-text-primary);
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
+        /* Light Theme General Overrides */
+        .light-theme body {
+             background-color: var(--color-background);
+        }
+        .light-theme main {
+            background-color: var(--color-background);
+        }
+
+        /* Light Theme Header & Sidebar */
+        .light-theme header,
+        .light-theme aside {
+            background-color: var(--color-surface);
+            border-color: var(--color-border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .light-theme aside .absolute.inset-0 {
+             background-color: transparent !important;
+             backdrop-filter: none;
+        }
+        .light-theme .sidebar-link {
+            color: var(--color-text-secondary);
+        }
+        .light-theme .sidebar-link i {
+            color: #374151;
+        }
+        .light-theme .sidebar-link:hover {
+            background-color: #F3F4F6;
+        }
+        .light-theme .sidebar-link:hover i, .light-theme .sidebar-link:hover span {
+             color: var(--color-primary) !important;
+        }
+        .light-theme .sidebar-link.active {
+            background-color: #F3F4F6;
+            border-left: 4px solid var(--color-primary);
+            color: var(--color-primary);
+        }
+        .light-theme .sidebar-link.active i, .light-theme .sidebar-link.active span {
+            color: var(--color-primary) !important;
+        }
+
+        /* Light Theme Content & Cards */
+        .light-theme .dashboard-item,
+        .light-theme .social-feed-card,
+        .light-theme #map-view > div,
+        .light-theme #reports-view > div,
+        .light-theme #alerts-view > div,
+        .light-theme #community-view > div > div,
+        .light-theme #resources-view > div,
+        .light-theme #settings-view > div > div,
+        .light-theme #report-modal > div,
+        .light-theme #quick-report-modal > div {
+            background-color: var(--color-surface);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-primary);
+        }
+        .light-theme .enhanced-card:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        
+        /* Light Theme Typography & Text */
+        .light-theme h1, .light-theme h2, .light-theme h3, .light-theme h4, .light-theme .text-white, .light-theme .logo-text, .light-theme #user-name {
+            color: var(--color-text-primary) !important;
+        }
+        .light-theme .text-gray-200, .light-theme .text-gray-300, .light-theme .text-gray-400, .light-theme small {
+            color: var(--color-text-secondary) !important;
+        }
+         /* Stop applying gradient to text in light mode */
+        .light-theme .gradient-text {
+            background-image: none;
+            color: inherit !important;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+        }
+        
+        /* Light Theme Buttons & Forms */
+        .light-theme button, .light-theme input, .light-theme select, .light-theme textarea {
+            color: var(--color-text-primary);
+        }
+        .light-theme input, .light-theme select, .light-theme textarea {
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+        }
+        .light-theme input::placeholder {
+            color: var(--color-text-secondary);
+        }
+        .light-theme #report-btn, .light-theme #report-view-btn {
+            background-color: var(--color-primary);
+            color: white;
+        }
+        .light-theme #report-btn:hover, .light-theme #report-view-btn:hover {
+            background-color: #08549c; /* Darker blue */
+        }
+        .light-theme .social-filter-btn {
+            background-color: #F3F4F6;
+        }
+        .light-theme .social-filter-btn.active {
+             background-color: var(--color-primary);
+             color: white;
+        }
+        
+        /* Light Theme Tables */
+        .light-theme table tr:nth-child(even) {
+            background-color: #F9FAFB;
+        }
+        .light-theme table tr:hover, .light-theme .hover\:bg-gray-800\/50:hover {
+            background-color: #F3F4F6;
+        }
+
+        /* Light Theme Miscellaneous */
+        .light-theme #login-page {
+            background-image: none !important;
+            background-color: #f5f5dc !important;
+        }
+        .light-theme .leaflet-popup-content-wrapper, .light-theme .leaflet-popup-tip {
+             background: var(--color-surface);
+             color: var(--color-text-primary);
+             border: 1px solid var(--color-border);
+             box-shadow: 0 3px 14px rgba(0,0,0,0.1);
+        }
+        .light-theme .leaflet-tile {
+             filter: brightness(0.95) contrast(1.05);
+        }
+        
+        /* Dark Theme Gradient */
+        .dark-theme .gradient-text {
+            background-image: linear-gradient(90deg, #3b82f6, #a855f7, #3b82f6, #a855f7, #3b82f6);
+        }
+        #login-page .gradient-text { /* Ensure login page always uses dark theme gradient */
+             background-image: linear-gradient(90deg, #3b82f6, #a855f7, #3b82f6, #a855f7, #3b82f6) !important;
+             color: transparent !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+        }
+
+
         /* Improved scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -79,12 +224,14 @@
             70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
-
+        
         .sidebar-link {
             position: relative;
             overflow: hidden;
             z-index: 1;
+            transition: all 0.3s ease;
         }
+
         .sidebar-link::before {
             content: '';
             position: absolute;
@@ -92,12 +239,13 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            border-radius: 0.5rem;
-            background-color: rgba(59, 130, 246, 0.15);
-            transition: left 0.3s ease-in-out;
-            z-index: -1;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-20deg);
+            transition: all 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .sidebar-link:hover::before, .sidebar-link.active::before { left: 0; }
+        .sidebar-link:hover::before {
+            left: 100%;
+        }
         
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -107,28 +255,26 @@
         .login-container.loaded { animation: fadeInUp 0.8s ease-out forwards; }
         .dashboard-item, .social-feed-card { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
         
-        /* Sidebar minimized styles */
         .sidebar-minimized aside { width: 5rem; }
-        .sidebar-minimized aside .logo-text, .sidebar-minimized aside .link-text { display: none; }
+        .sidebar-minimized aside .logo-text, .sidebar-minimized aside .link-text, .sidebar-minimized .sidebar-warning-text { display: none; }
         .sidebar-minimized aside .logo-icon { margin-right: 0; }
         .sidebar-minimized aside .sidebar-link { justify-content: center; }
         .sidebar-minimized aside #collapse-icon { transform: rotate(180deg); }
-        .sidebar-minimized main, .sidebar-minimized header { margin-left: 5rem; }
+        .sidebar-minimized main, .sidebar-minimized header { left: 5rem; }
+        .sidebar-minimized #sidebar-warning-collapsed { display: flex; }
+        .sidebar-minimized #sidebar-warning-expanded { display: none; }
         
         .social-filter-btn.active {
              background-color: var(--color-primary);
              color: white;
         }
         
-        /* Variable Proximity Animation */
         #variable-proximity-title span {
             display: inline-block;
             transition: font-variation-settings 0.2s ease-out;
         }
 
-        /* Gradient Text Animation */
         .gradient-text {
-            background-image: linear-gradient(90deg, #60a5fa, #ffffff, #60a5fa, #ffffff, #60a5fa);
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
@@ -140,9 +286,8 @@
             to { background-position: 200% center; }
         }
 
-        /* Gradient Button Animation */
         .gradient-button {
-             background-image: linear-gradient(90deg, #3b82f6, #ffffff, #3b82f6);
+             background-image: linear-gradient(90deg, #3b82f6, #a855f7, #3b82f6);
              background-size: 200% auto;
              transition: background-position 0.5s ease;
         }
@@ -150,7 +295,6 @@
             background-position: right center;
         }
 
-        /* Gradient Input Border */
         .gradient-input-border:focus-within {
             border-color: transparent;
             position: relative;
@@ -162,7 +306,7 @@
             position: absolute;
             top: -2px; left: -2px; right: -2px; bottom: -2px;
             z-index: -1;
-            background: linear-gradient(90deg, #60a5fa, #ffffff);
+            background: linear-gradient(90deg, #60a5fa, #a855f7);
             border-radius: 10px;
         }
         
@@ -175,7 +319,6 @@
             z-index: 1;
         }
 
-        /* New styles for enhanced UI */
         .hazard-card {
             transition: all 0.3s ease;
             border-left: 4px solid transparent;
@@ -184,11 +327,9 @@
         .hazard-card.high {
             border-left-color: var(--color-danger);
         }
-        
         .hazard-card.medium {
             border-left-color: var(--color-warning);
         }
-        
         .hazard-card.low {
             border-left-color: var(--color-success);
         }
@@ -255,12 +396,11 @@
             background-size: cover;
         }
         
-        /* Responsive improvements */
         @media (max-width: 768px) {
             .sidebar-minimized aside { width: 0; }
-            .sidebar-minimized main, .sidebar-minimized header { margin-left: 0; }
+            .sidebar-minimized main, .sidebar-minimized header { left: 0; }
             aside { width: 0; }
-            main, header { margin-left: 0; }
+            main, header { left: 0; }
             
             #sidebar-toggle-btn {
                 position: fixed;
@@ -282,12 +422,10 @@
             }
         }
 
-        /* Heatmap styles */
         .heatmap-gradient {
             background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
         }
         
-        /* Notification badge */
         .notification-badge {
             position: absolute;
             top: -5px;
@@ -303,7 +441,6 @@
             justify-content: center;
         }
         
-        /* Enhanced card hover effects */
         .enhanced-card {
             transition: all 0.3s ease;
             transform-style: preserve-3d;
@@ -311,10 +448,8 @@
         
         .enhanced-card:hover {
             transform: translateY(-5px) rotateX(5deg);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         
-        /* Loading spinner */
         .spinner {
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
@@ -329,9 +464,34 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        header {
+            left: 16rem;
+        }
+        main {
+            margin-left: 16rem;
+        }
+        
+        .team-view-bg {
+            background-image: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+        }
+        
+        #sidebar-warning-collapsed {
+            display: none;
+        }
+        #sidebar-warning-expanded {
+            display: flex;
+        }
+
+        .sidebar-minimized #sidebar-warning-collapsed {
+             display: flex;
+        }
+        .sidebar-minimized #sidebar-warning-expanded {
+             display: none;
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-black to-gray-900 text-gray-200 flex items-center justify-center min-h-screen">
+<body class="bg-gradient-to-br from-black to-gray-900 text-gray-200">
 
     <div id="login-page" class="fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-500 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80')">
         <canvas id="interactive-bg"></canvas>
@@ -339,27 +499,27 @@
             <div id="variable-proximity-container" class="hidden md:flex items-center justify-center p-12 text-white flex-col">
                 <div id="login-container" class="login-container text-center">
                     <h1 class="font-black text-8xl leading-tight select-none flex whitespace-nowrap">
-                        <div id="variable-proximity-sea">Sea</div>
-                        <div id="variable-proximity-sense" class="text-blue-400">sense</div>
+                        <div id="variable-proximity-sea" class="gradient-text">Sea</div>
+                        <div id="variable-proximity-sense" class="gradient-text">sense</div>
                     </h1>
-                    <p class="mt-4 text-xl text-gray-300 typewriter">
+                    <p class="mt-4 text-xl typewriter gradient-text" data-translate="login_tagline">
                         Protecting. Monitoring. Reporting.
                     </p>
                     <div class="mt-12 grid grid-cols-3 gap-6">
                         <div class="text-center enhanced-card p-4 rounded-lg bg-black/30 border border-white/10">
                             <i class="fas fa-shield-alt text-blue-400 text-3xl mb-2"></i>
-                            <h3 class="font-semibold">Protection</h3>
-                            <p class="text-sm text-gray-400 mt-1">Safeguarding coastal communities</p>
+                            <h3 class="font-semibold gradient-text" data-translate="protection">Protection</h3>
+                            <p class="text-sm mt-1 gradient-text" data-translate="protection_desc">Safeguarding coastal communities</p>
                         </div>
                         <div class="text-center enhanced-card p-4 rounded-lg bg-black/30 border border-white/10">
                             <i class="fas fa-chart-line text-green-400 text-3xl mb-2"></i>
-                            <h3 class="font-semibold">Monitoring</h3>
-                            <p class="text-sm text-gray-400 mt-1">Real-time hazard tracking</p>
+                            <h3 class="font-semibold gradient-text" data-translate="monitoring">Monitoring</h3>
+                            <p class="text-sm mt-1 gradient-text" data-translate="monitoring_desc">Real-time hazard tracking</p>
                         </div>
                         <div class="text-center enhanced-card p-4 rounded-lg bg-black/30 border border-white/10">
                             <i class="fas fa-bullhorn text-yellow-400 text-3xl mb-2"></i>
-                            <h3 class="font-semibold">Reporting</h3>
-                            <p class="text-sm text-gray-400 mt-1">Instant alert system</p>
+                            <h3 class="font-semibold gradient-text" data-translate="reporting">Reporting</h3>
+                            <p class="text-sm mt-1 gradient-text" data-translate="reporting_desc">Instant alert system</p>
                         </div>
                     </div>
                 </div>
@@ -368,13 +528,13 @@
             <div class="p-8 sm:p-12 backdrop-blur-2xl flex flex-col justify-center items-center rounded-xl md:rounded-r-xl md:rounded-l-none border border-white/10">
                 <div class="w-full max-w-md">
                     <div class="text-center mb-8">
-                        <h2 class="font-bold text-3xl gradient-text">Welcome Back</h2>
-                        <p class="text-gray-400 gradient-text" style="animation-duration: 5s;">Sign in to continue to Seasense</p>
+                        <h2 class="font-bold text-3xl gradient-text" data-translate="welcome_back">Welcome Back</h2>
+                        <p class="gradient-text" style="animation-duration: 5s;" data-translate="signin_continue">Sign in to continue to Seasense</p>
                     </div>
                     
                     <div class="flex mb-6 border border-gray-700 rounded-lg">
-                        <button class="tab flex-1 p-3 font-semibold text-white bg-blue-600 rounded-l-md" id="login-tab">Login</button>
-                        <button class="tab flex-1 p-3 text-gray-400" id="signup-tab">Sign Up</button>
+                        <button class="tab flex-1 p-3 font-semibold text-white bg-blue-600 rounded-l-md" id="login-tab" data-translate="login">Login</button>
+                        <button class="tab flex-1 p-3 text-gray-400" id="signup-tab" data-translate="signup">Sign Up</button>
                     </div>
 
                     <form id="login-form">
@@ -384,13 +544,13 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
                                     <input type="checkbox" id="remember-me" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                    <label for="remember-me" class="ml-2 block text-sm text-gray-300">Remember me</label>
+                                    <label for="remember-me" class="ml-2 block text-sm text-gray-300" data-translate="remember_me">Remember me</label>
                                 </div>
-                                <a href="#" class="text-sm text-blue-400 hover:text-blue-300">Forgot password?</a>
+                                <a href="#" class="text-sm text-blue-400 hover:text-blue-300" data-translate="forgot_password">Forgot password?</a>
                             </div>
                             <div class="flex items-center space-x-4">
                                 <button type="button" id="login-btn" class="gradient-button w-full text-white font-semibold py-3 rounded-lg hover:scale-105 transform transition-all duration-300 flex items-center justify-center">
-                                    <span id="login-text">Sign In</span>
+                                    <span id="login-text" data-translate="sign_in">Sign In</span>
                                     <div id="login-spinner" class="spinner hidden ml-2" style="width: 20px; height: 20px;"></div>
                                 </button>
                                 <button type="button" id="get-location-login" class="p-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors" title="Get current location"><i class="fas fa-map-marker-alt"></i></button>
@@ -401,18 +561,18 @@
                     <form id="signup-form" class="hidden">
                         <div class="space-y-4">
                              <div class="gradient-input-border rounded-lg"><input type="text" id="name" placeholder="Full Name" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
-                             <div class="gradient-input-border rounded-lg"><input type="email" id="signup-email" placeholder="Email Address" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
-                             <div class="gradient-input-border rounded-lg"><input type="password" id="signup-password" placeholder="Create a password" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
-                             <div class="gradient-input-border rounded-lg"><input type="password" id="confirm-password" placeholder="Confirm password" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
-                             <select id="role" class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
-                                 <option class="bg-gray-900" value="citizen">Concerned Citizen</option>
-                                 <option class="bg-gray-900" value="official">Government Official</option>
-                                 <option class="bg-gray-900" value="analyst">Data Analyst</option>
-                                 <option class="bg-gray-900" value="responder">First Responder</option>
-                             </select>
+                            <div class="gradient-input-border rounded-lg"><input type="email" id="signup-email" placeholder="Email Address" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
+                            <div class="gradient-input-border rounded-lg"><input type="password" id="signup-password" placeholder="Create a password" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
+                            <div class="gradient-input-border rounded-lg"><input type="password" id="confirm-password" placeholder="Confirm password" class="w-full bg-transparent border-2 border-gray-700 text-white rounded-lg p-3 outline-none transition-all placeholder:text-gray-300"></div>
+                            <select id="role" class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                                <option class="bg-gray-900" value="citizen" data-translate="role_citizen">Concerned Citizen</option>
+                                <option class="bg-gray-900" value="official" data-translate="role_official">Government Official</option>
+                                <option class="bg-gray-900" value="analyst" data-translate="role_analyst">Data Analyst</option>
+                                <option value="responder" data-translate="role_responder">First Responder</option>
+                            </select>
                             <div class="flex items-center space-x-4">
                                 <button type="button" id="signup-btn" class="gradient-button w-full text-white font-semibold py-3 rounded-lg hover:scale-105 transform transition-all duration-300 flex items-center justify-center">
-                                    <span id="signup-text">Create Account</span>
+                                    <span id="signup-text" data-translate="create_account">Create Account</span>
                                     <div id="signup-spinner" class="spinner hidden ml-2" style="width: 20px; height: 20px;"></div>
                                 </button>
                                 <button type="button" id="get-location-signup" class="p-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors" title="Get current location"><i class="fas fa-map-marker-alt"></i></button>
@@ -421,7 +581,7 @@
                     </form>
                     
                     <div class="mt-8 text-center">
-                        <p class="text-gray-400">Or continue with</p>
+                        <p class="gradient-text" data-translate="or_continue_with">Or continue with</p>
                         <div class="flex justify-center space-x-4 mt-2">
                             <button class="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
                                 <i class="fab fa-google text-red-400"></i>
@@ -437,9 +597,9 @@
                     
                     <!-- Quick Report Button -->
                     <div class="mt-8 text-center border-t border-gray-700 pt-6">
-                        <p class="text-yellow-400 mb-3 text-sm">In an emergency? Report a hazard immediately.</p>
+                        <p class="mb-3 text-sm gradient-text" data-translate="emergency_prompt">In an emergency? Report a hazard immediately.</p>
                         <button id="quick-report-btn" class="w-full bg-red-600 text-white font-semibold py-3 rounded-lg hover:bg-red-700 hover:scale-105 transform transition-all duration-300 flex items-center justify-center glow">
-                            <i class="fas fa-exclamation-triangle mr-2"></i> Quick Report
+                            <i class="fas fa-exclamation-triangle mr-2"></i> <span data-translate="quick_report">Quick Report</span>
                         </button>
                     </div>
 
@@ -448,16 +608,35 @@
         </div>
     </div>
 
-    <div id="dashboard" class="hidden h-screen">
-        <header class="fixed top-0 right-0 z-40 bg-black/50 backdrop-blur-lg border-b border-[var(--color-border)] py-3 transition-all duration-300 ml-64">
+    <div id="dashboard" class="hidden h-screen w-full">
+        <header class="fixed top-0 right-0 z-40 bg-black/50 backdrop-blur-lg border-b border-[var(--color-border)] py-3 transition-all duration-300">
             <div class="container mx-auto px-6 flex justify-between items-center">
                 <div class="flex items-center">
                     <button id="mobile-menu-btn" class="md:hidden mr-4 text-gray-400 hover:text-white">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-                    <h2 id="page-title" class="text-2xl font-bold text-white">Dashboard</h2>
+                    <h2 id="page-title" class="text-2xl font-bold text-white" data-translate="dashboard_title">Dashboard</h2>
                 </div>
-                 <div class="flex items-center space-x-6">
+                 <div class="flex items-center space-x-4 md:space-x-6">
+                    <div class="relative">
+                        <button id="theme-toggle-btn" class="text-gray-400 hover:text-white"><i class="fas fa-sun text-xl"></i></button>
+                        <div id="theme-dropdown" class="hidden absolute right-0 mt-2 w-32 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg shadow-lg py-1">
+                            <a href="#" class="theme-option flex items-center px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-background)]" data-theme="light"><i class="fas fa-sun w-6"></i> Light</a>
+                            <a href="#" class="theme-option flex items-center px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-background)]" data-theme="dark"><i class="fas fa-moon w-6"></i> Dark</a>
+                            <a href="#" class="theme-option flex items-center px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-background)]" data-theme="system"><i class="fas fa-desktop w-6"></i> System</a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <button id="language-toggle-btn" class="text-gray-400 hover:text-white"><i class="fas fa-globe text-xl"></i></button>
+                        <div id="language-dropdown" class="hidden absolute right-0 mt-2 w-36 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg shadow-lg py-1">
+                            <a href="#" class="language-option px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-background)]" data-lang="en">English</a>
+                            <a href="#" class="language-option px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-background)]" data-lang="hi">हिन्दी</a>
+                            <a href="#" class="language-option px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-background)]" data-lang="bn">বাংলা</a>
+                            <a href="#" class="language-option px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-background)]" data-lang="te">తెలుగు</a>
+                            <a href="#" class="language-option px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-background)]" data-lang="mr">मराठी</a>
+                            <a href="#" class="language-option px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-background)]" data-lang="ta">தமிழ்</a>
+                        </div>
+                    </div>
                     <div class="relative">
                         <button id="notifications-btn" class="text-gray-400 hover:text-white relative">
                             <i class="fas fa-bell text-xl"></i>
@@ -489,152 +668,161 @@
             </div>
             <nav class="relative z-10 flex-1 px-4 py-6 space-y-2">
                 <a href="#" data-view="home-view" class="sidebar-link active group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
-                    <i class="fas fa-tachometer-alt w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Dashboard</span>
+                    <i class="fas fa-tachometer-alt w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text" data-translate="dashboard">Dashboard</span>
                 </a>
                 <a href="#" data-view="analytics-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
-                    <i class="fas fa-chart-pie w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Analytics</span>
+                    <i class="fas fa-chart-pie w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text" data-translate="analytics">Analytics</span>
                 </a>
                 <a href="#" data-view="map-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
-                    <i class="fas fa-map w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Live Map</span>
+                    <i class="fas fa-map w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text" data-translate="live_map">Live Map</span>
                 </a>
-                 <a href="#" data-view="reports-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
-                    <i class="fas fa-file-alt w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Reports</span>
+                <a href="#" data-view="reports-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-file-alt w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text" data-translate="reports">Reports</span>
                 </a>
                 <a href="#" data-view="alerts-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
-                    <i class="fas fa-bell w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Alerts</span>
+                    <i class="fas fa-bell w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text" data-translate="alerts">Alerts</span>
                     <span class="notification-badge">3</span>
                 </a>
                 <a href="#" data-view="community-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
-                    <i class="fas fa-users w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Social Feed</span>
+                    <i class="fas fa-users w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text" data-translate="social_feed">Social Feed</span>
                 </a>
                 <a href="#" data-view="resources-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
-                    <i class="fas fa-life-ring w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Resources</span>
+                    <i class="fas fa-life-ring w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text" data-translate="resources">Resources</span>
+                </a>
+                <a href="#" data-view="team-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-user-friends w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text" data-translate="team_title">Team</span>
                 </a>
                 <a href="#" data-view="settings-view" class="sidebar-link group flex items-center py-3 px-4 rounded-lg transition-all duration-200">
-                    <i class="fas fa-cog w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text">Settings</span>
+                    <i class="fas fa-cog w-8 text-center text-lg"></i><span class="font-semibold link-text gradient-text" data-translate="settings">Settings</span>
                 </a>
             </nav>
-            <div class="relative z-10 p-4 border-t border-white/10">
-                <div class="bg-blue-900/20 p-3 rounded-lg">
+            <div class="relative z-10 p-4 border-t border-white/10 flex items-center space-x-3">
+                <!-- Collapsed warning button -->
+                <button id="sidebar-warning-collapsed" class="text-yellow-400 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10" title="Active Warnings" onclick="switchView('alerts-view')">
+                    <i class="fas fa-exclamation-circle text-lg"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+                <!-- Expanded warning widget -->
+                <div id="sidebar-warning-expanded" class="bg-blue-900/20 p-3 rounded-lg flex-1">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <i class="fas fa-exclamation-circle text-yellow-400"></i>
                         </div>
                         <div class="ml-3">
-                            <p class="text-sm text-yellow-300">2 active warnings in your area</p>
+                            <p class="text-sm text-yellow-300 sidebar-warning-text" data-translate="active_warnings_sidebar">2 active warnings in your area</p>
                         </div>
                     </div>
                 </div>
             </div>
         </aside>
 
-        <main class="ml-64 flex-1 pt-20 overflow-y-auto transition-all duration-300">
+        <main class="flex-1 pt-20 overflow-y-auto transition-all duration-300">
              <div id="view-container" class="container mx-auto px-6 py-8">
                 <div id="home-view" class="view">
                     <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
-                        <h2 class="text-3xl font-bold text-white">Hazard Dashboard</h2>
+                        <h2 class="text-3xl font-bold" data-translate="hazard_dashboard">Hazard Dashboard</h2>
                          <button id="report-btn" class="bg-blue-600 text-white font-semibold px-5 py-3 rounded-lg hover:bg-blue-700 hover:scale-105 transform transition-all duration-300 flex items-center">
-                            <i class="fas fa-plus mr-2"></i> Submit New Report
+                            <i class="fas fa-plus mr-2"></i> <span data-translate="submit_new_report">Submit New Report</span>
                         </button>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                         <div class="dashboard-item group bg-[var(--color-surface)] border border-[var(--color-border)] p-5 rounded-xl hover:border-blue-500/80 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]">
-                            <p class="text-sm text-gray-400">Total Reports</p>
-                            <p class="text-3xl font-bold text-white mt-2" id="total-reports">192</p>
+                         <div class="dashboard-item group p-5 rounded-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <p class="text-sm text-gray-400" data-translate="total_reports">Total Reports</p>
+                            <p class="text-3xl font-bold mt-2" id="total-reports">192</p>
                             <div class="flex items-center mt-2 text-sm">
                                 <span class="text-green-400 flex items-center">
                                     <i class="fas fa-arrow-up mr-1"></i> 12%
                                 </span>
-                                <span class="text-gray-400 ml-2">from last week</span>
+                                <span class="ml-2" data-translate="from_last_week">from last week</span>
                             </div>
                         </div>
-                        <div class="dashboard-item group bg-[var(--color-surface)] border border-[var(--color-border)] p-5 rounded-xl hover:border-green-500/80 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(34,197,94,0.4)]">
-                            <p class="text-sm text-gray-400">Verified Incidents</p>
-                            <p class="text-3xl font-bold text-white mt-2" id="verified-incidents">87</p>
-                            <div class="w-full bg-gray-700 rounded-full h-2 mt-3">
+                        <div class="dashboard-item group p-5 rounded-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <p class="text-sm text-gray-400" data-translate="verified_incidents">Verified Incidents</p>
+                            <p class="text-3xl font-bold mt-2" id="verified-incidents">87</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
                                 <div class="bg-green-500 h-2 rounded-full" style="width: 45%"></div>
                             </div>
                         </div>
-                         <div class="dashboard-item group bg-[var(--color-surface)] border border-[var(--color-border)] p-5 rounded-xl hover:border-red-500/80 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]">
-                            <p class="text-sm text-gray-400">Active Hotspots</p>
-                            <p class="text-3xl font-bold text-white mt-2">14</p>
+                         <div class="dashboard-item group p-5 rounded-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <p class="text-sm text-gray-400" data-translate="active_hotspots">Active Hotspots</p>
+                            <p class="text-3xl font-bold mt-2">14</p>
                             <div class="flex items-center mt-2">
                                 <span class="h-2 w-2 bg-red-500 rounded-full mr-1"></span>
-                                <span class="text-sm text-red-400">3 critical</span>
+                                <span class="text-sm text-red-500" data-translate="critical_hotspots">3 critical</span>
                             </div>
                         </div>
-                        <div class="dashboard-item group bg-[var(--color-surface)] border border-[var(--color-border)] p-5 rounded-xl hover:border-purple-500/80 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-                            <p class="text-sm text-gray-400">Response Time</p>
-                             <p class="text-3xl font-bold text-white mt-2">24m</p>
+                        <div class="dashboard-item group p-5 rounded-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <p class="text-sm text-gray-400" data-translate="response_time">Response Time</p>
+                             <p class="text-3xl font-bold mt-2">24m</p>
                             <div class="flex items-center mt-2 text-sm">
                                 <span class="text-green-400 flex items-center">
                                     <i class="fas fa-arrow-down mr-1"></i> 5m
                                 </span>
-                                <span class="text-gray-400 ml-2">improvement</span>
+                                <span class="ml-2" data-translate="improvement">improvement</span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="flex flex-col gap-8">
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            <div class="lg:col-span-2 dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                            <div class="lg:col-span-2 dashboard-item p-6 rounded-xl">
                                 <div class="flex justify-between items-center mb-4">
-                                    <h3 class="font-bold text-xl text-white"><i class="fas fa-map-marker-alt text-blue-400 mr-2"></i> Live Hazard Map - India Focus</h3>
-                                    <div class="flex space-x-2">
-                                        <button class="px-3 py-1 text-xs bg-gray-700 rounded-md hover:bg-gray-600">Heatmap</button>
-                                        <button class="px-3 py-1 text-xs bg-gray-700 rounded-md hover:bg-gray-600">Satellite</button>
-                                    </div>
+                                    <h3 class="font-bold text-xl"><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> <span data-translate="live_hazard_map">Live Hazard Map - India Focus</span></h3>
+                                     <div class="flex space-x-2">
+                                         <button id="home-map-heatmap-btn" class="px-3 py-1 text-xs bg-gray-200 rounded-md hover:bg-gray-300" data-translate="heatmap">Heatmap</button>
+                                         <button id="home-map-satellite-btn" class="px-3 py-1 text-xs bg-gray-200 rounded-md hover:bg-gray-300" data-translate="satellite">Satellite</button>
+                                     </div>
                                 </div>
                                 <div id="map" class="h-[calc(100vh-28rem)] rounded-lg"></div>
                             </div>
-                            <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
+                            <div class="dashboard-item p-6 rounded-xl">
                                  <div class="flex justify-between items-center mb-4">
-                                    <h3 class="font-bold text-xl text-white"><i class="fas fa-list text-blue-400 mr-2"></i> Recent Reports</h3>
-                                    <button class="text-blue-400 text-sm">View All</button>
+                                    <h3 class="font-bold text-xl"><i class="fas fa-list text-blue-500 mr-2"></i> <span data-translate="recent_reports">Recent Reports</span></h3>
+                                     <button class="text-blue-600 text-sm" data-translate="view_all">View All</button>
                                  </div>
                                  <ul id="recent-reports-list" class="space-y-4"></ul>
                             </div>
                         </div>
                         
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                                <h3 class="font-bold text-xl text-white mb-4"><i class="fas fa-chart-bar text-blue-400 mr-2"></i> Hazard Distribution</h3>
+                            <div class="dashboard-item p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-4"><i class="fas fa-chart-bar text-blue-500 mr-2"></i> <span data-translate="hazard_distribution">Hazard Distribution</span></h3>
                                 <canvas id="mini-chart" height="200"></canvas>
                             </div>
-                            <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                                <h3 class="font-bold text-xl text-white mb-4"><i class="fas fa-exclamation-triangle text-yellow-400 mr-2"></i> Active Warnings</h3>
+                            <div class="dashboard-item p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-4"><i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i> <span data-translate="active_warnings">Active Warnings</span></h3>
                                 <div class="space-y-4">
-                                    <div class="flex items-start p-3 bg-yellow-900/20 rounded-lg">
+                                    <div class="flex items-start p-3 bg-yellow-100 rounded-lg">
                                         <div class="flex-shrink-0">
-                                            <i class="fas fa-water text-yellow-400 text-xl mt-1"></i>
+                                            <i class="fas fa-water text-yellow-500 text-xl mt-1"></i>
                                         </div>
                                         <div class="ml-3">
-                                            <h4 class="font-semibold text-white">High Wave Alert</h4>
-                                            <p class="text-sm text-gray-300">Eastern Coast - Until 8:00 PM tomorrow</p>
+                                            <h4 class="font-semibold" data-translate="high_wave_alert">High Wave Alert</h4>
+                                            <p class="text-sm" data-translate="eastern_coast_alert">Eastern Coast - Until 8:00 PM tomorrow</p>
                                         </div>
                                     </div>
-                                    <div class="flex items-start p-3 bg-red-900/20 rounded-lg">
+                                    <div class="flex items-start p-3 bg-red-100 rounded-lg">
                                         <div class="flex-shrink-0">
-                                            <i class="fas fa-wind text-red-400 text-xl mt-1"></i>
+                                            <i class="fas fa-wind text-red-500 text-xl mt-1"></i>
                                         </div>
                                         <div class="ml-3">
-                                            <h4 class="font-semibold text-white">Storm Warning</h4>
-                                            <p class="text-sm text-gray-300">Western Region - Starting in 6 hours</p>
+                                            <h4 class="font-semibold" data-translate="storm_warning">Storm Warning</h4>
+                                            <p class="text-sm" data-translate="western_region_alert">Western Region - Starting in 6 hours</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                            <h3 class="font-bold text-2xl text-white mb-4">Community & Social Feed</h3>
-                            <div class="flex space-x-2 mb-6 border-b border-gray-700 pb-4 overflow-x-auto">
-                                <button data-platform="all" class="social-filter-btn active px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">All</button>
-                                <button data-platform="x" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">X</button>
-                                <button data-platform="facebook" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Facebook</button>
-                                <button data-platform="instagram" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Instagram</button>
-                                <button data-platform="google" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Google</button>
+                        <div class="dashboard-item p-6 rounded-xl">
+                            <h3 class="font-bold text-2xl mb-4" data-translate="community_social_feed">Community & Social Feed</h3>
+                            <div class="flex space-x-2 mb-6 border-b border-gray-200 pb-4 overflow-x-auto">
+                                <button data-platform="all" class="social-filter-btn active px-4 py-2 text-sm font-semibold rounded-md" data-translate="all">All</button>
+                                <button data-platform="x" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md">X</button>
+                                <button data-platform="facebook" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md">Facebook</button>
+                                <button data-platform="instagram" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md">Instagram</button>
+                                <button data-platform="google" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md">Google</button>
                             </div>
                             <div id="social-feed-container-main" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                </div>
@@ -643,627 +831,622 @@
                 </div>
 
                 <div id="analytics-view" class="view hidden">
-                    <h2 class="text-3xl font-bold text-white mb-6">Analytics & Insights</h2>
+                    <h2 class="text-3xl font-bold mb-6" data-translate="analytics_insights">Analytics & Insights</h2>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                            <h3 class="font-bold text-xl mb-4 text-white">Reports Trend (Last 7 Days)</h3>
+                        <div class="dashboard-item p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-4" data-translate="reports_trend">Reports Trend (Last 7 Days)</h3>
                             <canvas id="reports-chart"></canvas>
                         </div>
-                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                            <h3 class="font-bold text-xl mb-4 text-white">Hazard Types Distribution</h3>
+                        <div class="dashboard-item p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-4" data-translate="hazard_types_dist">Hazard Types Distribution</h3>
                             <canvas id="types-chart"></canvas>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                            <h3 class="font-bold text-xl mb-4 text-white">Regional Heatmap</h3>
+                        <div class="dashboard-item p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-4" data-translate="regional_heatmap">Regional Heatmap</h3>
                             <div class="flex items-center mb-4">
                                 <div class="flex-1 h-4 heatmap-gradient rounded-full"></div>
-                                <div class="text-xs ml-4 text-gray-400">
-                                    <span>Low</span>
+                                <div class="text-xs ml-4">
+                                    <span data-translate="low">Low</span>
                                     <span class="mx-2">→</span>
-                                    <span>High</span>
+                                    <span data-translate="high">High</span>
                                 </div>
                             </div>
                             <div class="grid grid-cols-3 gap-4 text-center">
-                                <div class="p-4 bg-gray-800 rounded-lg">
-                                    <div class="text-2xl font-bold text-red-400">14</div>
-                                    <div class="text-sm text-gray-400">East Coast</div>
+                                <div class="p-4 bg-gray-100 rounded-lg">
+                                    <div class="text-2xl font-bold text-red-500">14</div>
+                                    <div class="text-sm" data-translate="east_coast">East Coast</div>
                                 </div>
-                                <div class="p-4 bg-gray-800 rounded-lg">
-                                    <div class="text-2xl font-bold text-yellow-400">8</div>
-                                    <div class="text-sm text-gray-400">West Coast</div>
+                                <div class="p-4 bg-gray-100 rounded-lg">
+                                    <div class="text-2xl font-bold text-yellow-500">8</div>
+                                    <div class="text-sm" data-translate="west_coast">West Coast</div>
                                 </div>
-                                <div class="p-4 bg-gray-800 rounded-lg">
-                                    <div class="text-2xl font-bold text-green-400">3</div>
-                                    <div class="text-sm text-gray-400">South</div>
+                                <div class="p-4 bg-gray-100 rounded-lg">
+                                    <div class="text-2xl font-bold text-green-500">3</div>
+                                    <div class="text-sm" data-translate="south">South</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                            <h3 class="font-bold text-xl mb-4 text-white">Response Metrics</h3>
+                        <div class="dashboard-item p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-4" data-translate="response_metrics">Response Metrics</h3>
                             <div class="space-y-4">
                                 <div>
                                     <div class="flex justify-between text-sm mb-1">
-                                        <span class="text-gray-400">Verification Time</span>
-                                        <span class="text-white">2.4h</span>
+                                        <span data-translate="verification_time">Verification Time</span>
+                                        <span>2.4h</span>
                                     </div>
-                                    <div class="w-full bg-gray-700 rounded-full h-2">
-                                        <div class="bg-blue-500 h-2 rounded-full" style="width: 70%"></div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-blue-600 h-2 rounded-full" style="width: 70%"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="flex justify-between text-sm mb-1">
-                                        <span class="text-gray-400">Resolution Rate</span>
-                                        <span class="text-white">78%</span>
+                                        <span data-translate="resolution_rate">Resolution Rate</span>
+                                        <span>78%</span>
                                     </div>
-                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
                                         <div class="bg-green-500 h-2 rounded-full" style="width: 78%"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="flex justify-between text-sm mb-1">
-                                        <span class="text-gray-400">False Positives</span>
-                                        <span class="text-white">12%</span>
+                                        <span data-translate="false_positives">False Positives</span>
+                                        <span>12%</span>
                                     </div>
-                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
                                         <div class="bg-yellow-500 h-2 rounded-full" style="width: 12%"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                        <h3 class="font-bold text-xl mb-4 text-white">All Submitted Reports</h3>
+                    <div class="dashboard-item p-6 rounded-xl">
+                        <h3 class="font-bold text-xl mb-4" data-translate="all_submitted_reports">All Submitted Reports</h3>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left">
                                 <thead>
-                                    <tr class="border-b border-gray-700 text-sm text-gray-400">
-                                        <th class="p-3">ID</th>
-                                        <th class="p-3">Title</th>
-                                        <th class="p-3">Location</th>
-                                        <th class="p-3">Severity</th>
-                                        <th class="p-3">Status</th>
-                                        <th class="p-3">Time</th>
-                                        <th class="p-3">Actions</th>
+                                    <tr class="border-b">
+                                         <th class="p-3" data-translate="table_id">ID</th>
+                                         <th class="p-3" data-translate="table_title">Title</th>
+                                         <th class="p-3" data-translate="table_type">Type</th>
+                                         <th class="p-3" data-translate="table_location">Location</th>
+                                         <th class="p-3" data-translate="table_severity">Severity</th>
+                                         <th class="p-3" data-translate="table_status">Status</th>
+                                         <th class="p-3" data-translate="table_time">Time</th>
                                     </tr>
                                 </thead>
                                 <tbody id="reports-table-body">
-                                    </tbody>
+                                     </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
                 
                  <div id="map-view" class="view hidden">
-                     <div class="bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                         <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
-                             <h3 class="font-bold text-xl text-white"><i class="fas fa-map text-blue-400 mr-2"></i> Fullscreen Live Map</h3>
-                             <div class="flex space-x-2">
-                                 <div class="flex items-center space-x-2">
-                                     <div class="flex items-center">
-                                         <div class="w-3 h-3 bg-red-500 rounded-full mr-1"></div>
-                                         <span class="text-sm">High</span>
-                                     </div>
-                                     <div class="flex items-center">
-                                         <div class="w-3 h-3 bg-yellow-500 rounded-full mr-1"></div>
-                                         <span class="text-sm">Medium</span>
-                                     </div>
-                                     <div class="flex items-center">
-                                         <div class="w-3 h-3 bg-green-500 rounded-full mr-1"></div>
-                                         <span class="text-sm">Low</span>
-                                     </div>
-                                 </div>
-                                 <button class="px-3 py-1 text-sm bg-gray-700 rounded-md hover:bg-gray-600">Filter</button>
-                             </div>
-                         </div>
-                         <div id="map-fullscreen" class="h-[75vh] rounded-lg"></div>
-                       </div>
-                 </div>
+                         <div class="p-6 rounded-xl">
+                            <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
+                                <h3 class="font-bold text-xl"><i class="fas fa-map text-blue-600 mr-2"></i> <span data-translate="fullscreen_map">Fullscreen Live Map</span></h3>
+                                <div class="flex space-x-2">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="flex items-center">
+                                            <div class="w-3 h-3 bg-red-500 rounded-full mr-1"></div>
+                                            <span class="text-sm" data-translate="high">High</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-3 h-3 bg-yellow-500 rounded-full mr-1"></div>
+                                            <span class="text-sm" data-translate="medium">Medium</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-3 h-3 bg-green-500 rounded-full mr-1"></div>
+                                            <span class="text-sm" data-translate="low">Low</span>
+                                        </div>
+                                    </div>
+                                    <button id="fullscreen-map-heatmap-btn" class="px-3 py-1 text-sm bg-gray-200 rounded-md hover:bg-gray-300" data-translate="heatmap">Heatmap</button>
+                                    <button id="fullscreen-map-satellite-btn" class="px-3 py-1 text-sm bg-gray-200 rounded-md hover:bg-gray-300" data-translate="satellite">Satellite</button>
+                                </div>
+                            </div>
+                            <div id="map-fullscreen" class="h-[75vh] rounded-lg"></div>
+                        </div>
+                    </div>
                 
                  <div id="reports-view" class="view hidden">
-                     <h2 class="text-3xl font-bold text-white mb-6">Incident Reports</h2>
-                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                         <div class="p-4 bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-lg text-white mb-2">Create New Report</h3>
-                             <p class="text-gray-400 mb-4">Submit a new hazard report with detailed information</p>
-                             <button id="report-view-btn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">New Report</button>
-                         </div>
-                         <div class="p-4 bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-lg text-white mb-2">My Reports</h3>
-                             <p class="text-gray-400 mb-4">View and manage your submitted reports</p>
-                             <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600">View History</button>
-                         </div>
-                         <div class="p-4 bg-[var(--color-surface)] rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-lg text-white mb-2">Templates</h3>
-                             <p class="text-gray-400 mb-4">Use pre-defined templates for common hazards</p>
-                             <button class="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600">Browse Templates</button>
-                         </div>
-                     </div>
-                     <div class="bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                         <h3 class="font-bold text-xl text-white mb-4">Recent Reports</h3>
-                         <div class="overflow-x-auto">
-                             <table class="w-full text-left">
-                                 <thead>
-                                     <tr class="border-b border-gray-700 text-sm text-gray-400">
-                                         <th class="p-3">ID</th>
-                                         <th class="p-3">Title</th>
-                                         <th class="p-3">Type</th>
-                                         <th class="p-3">Location</th>
-                                         <th class="p-3">Severity</th>
-                                         <th class="p-3">Status</th>
-                                         <th class="p-3">Time</th>
-                                     </tr>
-                                 </thead>
-                                 <tbody>
-                                     <tr class="border-b border-gray-700 hover:bg-gray-800/50">
-                                         <td class="p-3">RPT-0042</td>
-                                         <td class="p-3">Coastal Erosion</td>
-                                         <td class="p-3">Erosion</td>
-                                         <td class="p-3">Kerala Coast</td>
-                                         <td class="p-3"><span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">Medium</span></td>
-                                         <td class="p-3"><span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs">Investigating</span></td>
-                                         <td class="p-3">2 hours ago</td>
-                                     </tr>
-                                     <tr class="border-b border-gray-700 hover:bg-gray-800/50">
-                                         <td class="p-3">RPT-0041</td>
-                                         <td class="p-3">Oil Spill Sighting</td>
-                                         <td class="p-3">Pollution</td>
-                                         <td class="p-3">Mumbai Harbor</td>
-                                         <td class="p-3"><span class="px-2 py-1 bg-red-500/20 text-red-400 rounded-full text-xs">High</span></td>
-                                         <td class="p-3"><span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">Resolved</span></td>
-                                         <td class="p-3">1 day ago</td>
-                                     </tr>
-                                     <tr class="border-b border-gray-700 hover:bg-gray-800/50">
-                                         <td class="p-3">RPT-0040</td>
-                                         <td class="p-3">Unusual Marine Life Behavior</td>
-                                         <td class="p-3">Wildlife</td>
-                                         <td class="p-3">Andaman Islands</td>
-                                         <td class="p-3"><span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">Low</span></td>
-                                         <td class="p-3"><span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs">Monitoring</span></td>
-                                         <td class="p-3">2 days ago</td>
-                                     </tr>
-                                 </tbody>
-                             </table>
-                           </div>
-                     </div>
-                 </div>
+                         <h2 class="text-3xl font-bold mb-6" data-translate="incident_reports">Incident Reports</h2>
+                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                            <div class="p-4 rounded-xl">
+                                <h3 class="font-bold text-lg mb-2" data-translate="create_new_report">Create New Report</h3>
+                                <p class="mb-4" data-translate="create_new_report_desc">Submit a new hazard report with detailed information</p>
+                                <button id="report-view-btn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700" data-translate="new_report">New Report</button>
+                            </div>
+                            <div class="p-4 rounded-xl">
+                                <h3 class="font-bold text-lg mb-2" data-translate="my_reports">My Reports</h3>
+                                <p class="mb-4" data-translate="my_reports_desc">View and manage your submitted reports</p>
+                                <button class="w-full bg-gray-200 py-2 rounded-lg hover:bg-gray-300" data-translate="view_history">View History</button>
+                            </div>
+                            <div class="p-4 rounded-xl">
+                                <h3 class="font-bold text-lg mb-2" data-translate="templates">Templates</h3>
+                                <p class="mb-4" data-translate="templates_desc">Use pre-defined templates for common hazards</p>
+                                <button class="w-full bg-gray-200 py-2 rounded-lg hover:bg-gray-300" data-translate="browse_templates">Browse Templates</button>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-4" data-translate="recent_reports">Recent Reports</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead>
+                                        <tr class="border-b">
+                                             <th class="p-3" data-translate="table_id">ID</th>
+                                             <th class="p-3" data-translate="table_title">Title</th>
+                                             <th class="p-3" data-translate="table_type">Type</th>
+                                             <th class="p-3" data-translate="table_location">Location</th>
+                                             <th class="p-3" data-translate="table_severity">Severity</th>
+                                             <th class="p-3" data-translate="table_status">Status</th>
+                                             <th class="p-3" data-translate="table_time">Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reports-table-body">
+                                         <tr class="border-b">
+                                             <td class="p-3">RPT-0042</td>
+                                             <td class="p-3" data-translate="report_coastal_erosion">Coastal Erosion</td>
+                                             <td class="p-3" data-translate="type_erosion">Erosion</td>
+                                             <td class="p-3" data-translate="location_kerala">Kerala Coast</td>
+                                             <td class="p-3"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs" data-translate="medium">Medium</span></td>
+                                             <td class="p-3"><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs" data-translate="status_investigating">Investigating</span></td>
+                                             <td class="p-3" data-translate="time_2_hours">2 hours ago</td>
+                                         </tr>
+                                         <tr class="border-b">
+                                             <td class="p-3">RPT-0041</td>
+                                             <td class="p-3" data-translate="report_oil_spill">Oil Spill Sighting</td>
+                                             <td class="p-3" data-translate="type_pollution">Pollution</td>
+                                             <td class="p-3" data-translate="location_mumbai">Mumbai Harbor</td>
+                                             <td class="p-3"><span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs" data-translate="high">High</span></td>
+                                             <td class="p-3"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs" data-translate="status_resolved">Resolved</span></td>
+                                             <td class="p-3" data-translate="time_1_day">1 day ago</td>
+                                         </tr>
+                                         <tr class="border-b">
+                                             <td class="p-3">RPT-0040</td>
+                                             <td class="p-3" data-translate="report_marine_life">Unusual Marine Life Behavior</td>
+                                             <td class="p-3" data-translate="type_wildlife">Wildlife</td>
+                                             <td class="p-3" data-translate="location_andaman">Andaman Islands</td>
+                                             <td class="p-3"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs" data-translate="low">Low</span></td>
+                                             <td class="p-3"><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs" data-translate="status_monitoring">Monitoring</span></td>
+                                             <td class="p-3" data-translate="time_2_days">2 days ago</td>
+                                         </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 
                  <div id="alerts-view" class="view hidden">
-                     <h2 class="text-3xl font-bold text-white mb-6">Alert System</h2>
-                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                         <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-xl text-white mb-4">Active Alerts</h3>
-                             <div class="space-y-4">
-                                 <div class="p-4 bg-yellow-900/20 rounded-lg border border-yellow-700/50">
-                                     <div class="flex justify-between items-start">
+                         <h2 class="text-3xl font-bold mb-6" data-translate="alert_system">Alert System</h2>
+                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                            <div class="dashboard-item p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-4" data-translate="active_alerts">Active Alerts</h3>
+                                <div class="space-y-4">
+                                     <div class="p-4 bg-yellow-100 border-l-4 border-yellow-500">
+                                         <div class="flex justify-between items-start">
+                                             <div>
+                                                 <h4 class="font-semibold" data-translate="high_wave_warning">High Wave Warning</h4>
+                                                 <p class="text-sm" data-translate="eastern_coastline">Eastern Coastline</p>
+                                             </div>
+                                             <span class="px-2 py-1 bg-yellow-500 text-white text-xs font-bold rounded" data-translate="status_active">Active</span>
+                                         </div>
+                                         <p class="text-sm mt-2" data-translate="high_wave_desc">Waves expected to reach 3-4 meters height. Avoid coastal areas.</p>
+                                         <div class="flex items-center mt-3 text-xs">
+                                             <i class="far fa-clock mr-1"></i>
+                                             <span data-translate="high_wave_time">Issued: Today at 08:45 • Expires: Tomorrow at 20:00</span>
+                                         </div>
+                                     </div>
+                                     <div class="p-4 bg-red-100 border-l-4 border-red-500">
+                                         <div class="flex justify-between items-start">
+                                             <div>
+                                                 <h4 class="font-semibold" data-translate="cyclone_alert">Cyclone Alert</h4>
+                                                 <p class="text-sm" data-translate="bay_of_bengal">Bay of Bengal</p>
+                                             </div>
+                                             <span class="px-2 py-1 bg-red-500 text-white text-xs font-bold rounded" data-translate="status_critical">Critical</span>
+                                         </div>
+                                         <p class="text-sm mt-2" data-translate="cyclone_desc">Cyclone formation detected. Expected to make landfall in 72 hours.</p>
+                                         <div class="flex items-center mt-3 text-xs">
+                                             <i class="far fa-clock mr-1"></i>
+                                             <span data-translate="cyclone_time">Issued: Today at 11:30 • Expires: 3 days</span>
+                                         </div>
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="dashboard-item p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-4" data-translate="alert_preferences">Alert Preferences</h3>
+                                <div class="space-y-4">
+                                     <div class="flex items-center justify-between">
                                          <div>
-                                             <h4 class="font-semibold text-white">High Wave Warning</h4>
-                                             <p class="text-sm text-gray-300">Eastern Coastline</p>
+                                             <h4 class="font-semibold" data-translate="email_notifications">Email Notifications</h4>
+                                             <p class="text-sm" data-translate="email_notifications_desc">Receive alerts via email</p>
                                          </div>
-                                         <span class="px-2 py-1 bg-yellow-500 text-yellow-900 text-xs font-bold rounded">Active</span>
+                                         <label class="relative inline-flex items-center cursor-pointer">
+                                             <input type="checkbox" class="sr-only peer" checked>
+                                             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                         </label>
                                      </div>
-                                     <p class="text-sm text-gray-400 mt-2">Waves expected to reach 3-4 meters height. Avoid coastal areas.</p>
-                                     <div class="flex items-center mt-3 text-xs text-gray-400">
-                                         <i class="far fa-clock mr-1"></i>
-                                         <span>Issued: Today at 08:45 • Expires: Tomorrow at 20:00</span>
-                                     </div>
-                                 </div>
-                                 <div class="p-4 bg-red-900/20 rounded-lg border border-red-700/50">
-                                     <div class="flex justify-between items-start">
+                                     <div class="flex items-center justify-between">
                                          <div>
-                                             <h4 class="font-semibold text-white">Cyclone Alert</h4>
-                                             <p class="text-sm text-gray-300">Bay of Bengal</p>
+                                             <h4 class="font-semibold" data-translate="sms_alerts">SMS Alerts</h4>
+                                             <p class="text-sm" data-translate="sms_alerts_desc">Receive critical alerts via SMS</p>
                                          </div>
-                                         <span class="px-2 py-1 bg-red-500 text-red-900 text-xs font-bold rounded">Critical</span>
+                                         <label class="relative inline-flex items-center cursor-pointer">
+                                             <input type="checkbox" class="sr-only peer">
+                                             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                         </label>
                                      </div>
-                                     <p class="text-sm text-gray-400 mt-2">Cyclone formation detected. Expected to make landfall in 72 hours.</p>
-                                     <div class="flex items-center mt-3 text-xs text-gray-400">
-                                         <i class="far fa-clock mr-1"></i>
-                                         <span>Issued: Today at 11:30 • Expires: 3 days</span>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-xl text-white mb-4">Alert Preferences</h3>
-                             <div class="space-y-4">
-                                 <div class="flex items-center justify-between">
-                                     <div>
-                                         <h4 class="font-semibold text-white">Email Notifications</h4>
-                                         <p class="text-sm text-gray-400">Receive alerts via email</p>
-                                     </div>
-                                     <label class="relative inline-flex items-center cursor-pointer">
-                                         <input type="checkbox" class="sr-only peer" checked>
-                                         <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                                     </label>
-                                 </div>
-                                 <div class="flex items-center justify-between">
-                                     <div>
-                                         <h4 class="font-semibold text-white">SMS Alerts</h4>
-                                         <p class="text-sm text-gray-400">Receive critical alerts via SMS</p>
-                                     </div>
-                                     <label class="relative inline-flex items-center cursor-pointer">
-                                         <input type="checkbox" class="sr-only peer">
-                                         <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                                     </label>
-                                 </div>
-                                 <div class="flex items-center justify-between">
-                                     <div>
-                                         <h4 class="font-semibold text-white">Push Notifications</h4>
-                                         <p class="text-sm text-gray-400">Receive alerts on your device</p>
-                                     </div>
-                                     <label class="relative inline-flex items-center cursor-pointer">
-                                         <input type="checkbox" class="sr-only peer" checked>
-                                         <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                                     </label>
-                                 </div>
-                                 <div class="pt-4 border-t border-gray-700">
-                                     <h4 class="font-semibold text-white mb-2">Alert Types</h4>
-                                     <div class="space-y-2">
-                                         <div class="flex items-center">
-                                             <input type="checkbox" id="tsunami-alerts" class="rounded text-blue-600 focus:ring-blue-500" checked>
-                                             <label for="tsunami-alerts" class="ml-2 text-sm text-gray-300">Tsunami Warnings</label>
+                                     <div class="flex items-center justify-between">
+                                         <div>
+                                             <h4 class="font-semibold" data-translate="push_notifications">Push Notifications</h4>
+                                             <p class="text-sm" data-translate="push_notifications_desc">Receive alerts on your device</p>
                                          </div>
-                                         <div class="flex items-center">
-                                             <input type="checkbox" id="storm-alerts" class="rounded text-blue-600 focus:ring-blue-500" checked>
-                                             <label for="storm-alerts" class="ml-2 text-sm text-gray-300">Storm Warnings</label>
-                                         </div>
-                                         <div class="flex items-center">
-                                             <input type="checkbox" id="pollution-alerts" class="rounded text-blue-600 focus:ring-blue-500" checked>
-                                             <label for="pollution-alerts" class="ml-2 text-sm text-gray-300">Pollution Incidents</label>
-                                         </div>
-                                         <div class="flex items-center">
-                                             <input type="checkbox" id="wildlife-alerts" class="rounded text-blue-600 focus:ring-blue-500">
-                                             <label for="wildlife-alerts" class="ml-2 text-sm text-gray-300">Wildlife Events</label>
+                                         <label class="relative inline-flex items-center cursor-pointer">
+                                             <input type="checkbox" class="sr-only peer" checked>
+                                             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                         </label>
+                                     </div>
+                                     <div class="pt-4 border-t">
+                                         <h4 class="font-semibold mb-2" data-translate="alert_types">Alert Types</h4>
+                                         <div class="space-y-2">
+                                             <div class="flex items-center">
+                                                 <input type="checkbox" id="tsunami-alerts" class="rounded text-blue-600 focus:ring-blue-500" checked>
+                                                 <label for="tsunami-alerts" class="ml-2 text-sm" data-translate="tsunami_warnings">Tsunami Warnings</label>
+                                             </div>
+                                             <div class="flex items-center">
+                                                 <input type="checkbox" id="storm-alerts" class="rounded text-blue-600 focus:ring-blue-500" checked>
+                                                 <label for="storm-alerts" class="ml-2 text-sm" data-translate="storm_warnings">Storm Warnings</label>
+                                             </div>
+                                             <div class="flex items-center">
+                                                 <input type="checkbox" id="pollution-alerts" class="rounded text-blue-600 focus:ring-blue-500" checked>
+                                                 <label for="pollution-alerts" class="ml-2 text-sm" data-translate="pollution_incidents">Pollution Incidents</label>
+                                             </div>
+                                             <div class="flex items-center">
+                                                 <input type="checkbox" id="wildlife-alerts" class="rounded text-blue-600 focus:ring-blue-500">
+                                                 <label for="wildlife-alerts" class="ml-2 text-sm" data-translate="wildlife_events">Wildlife Events</label>
+                                             </div>
                                          </div>
                                      </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 
                  <div id="community-view" class="view hidden">
-                     <h2 class="text-3xl font-bold text-white mb-6">Community Social Feed</h2>
-                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                         <div class="lg:col-span-2 dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                             <div class="flex space-x-2 mb-6 border-b border-gray-700 pb-4 overflow-x-auto">
-                                 <button data-platform="all" class="social-filter-btn active px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">All</button>
-                                 <button data-platform="x" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">X</button>
-                                 <button data-platform="facebook" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Facebook</button>
-                                 <button data-platform="instagram" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Instagram</button>
-                                 <button data-platform="google" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md bg-gray-700 hover:bg-blue-600 transition-colors">Google</button>
-                             </div>
-                             <div id="social-feed-container" class="space-y-6">
+                         <h2 class="text-3xl font-bold mb-6" data-translate="community_social_feed_title">Community Social Feed</h2>
+                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2 dashboard-item p-6 rounded-xl">
+                                <div class="flex space-x-2 mb-6 border-b pb-4 overflow-x-auto">
+                                     <button data-platform="all" class="social-filter-btn active px-4 py-2 text-sm font-semibold rounded-md" data-translate="all">All</button>
+                                     <button data-platform="x" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md">X</button>
+                                     <button data-platform="facebook" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md">Facebook</button>
+                                     <button data-platform="instagram" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md">Instagram</button>
+                                     <button data-platform="google" class="social-filter-btn px-4 py-2 text-sm font-semibold rounded-md">Google</button>
                                 </div>
-                         </div>
-                         <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-xl text-white mb-4">Community Leaders</h3>
-                             <div class="space-y-4">
-                                 <div class="flex items-center p-3 bg-gray-800/50 rounded-lg">
-                                     <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="w-10 h-10 rounded-full">
-                                     <div class="ml-3">
-                                         <h4 class="font-semibold text-white">Priya Sharma</h4>
-                                         <p class="text-xs text-gray-400">Mumbai • 42 reports</p>
+                                <div id="social-feed-container" class="space-y-6">
                                      </div>
-                                     <div class="ml-auto flex items-center text-yellow-400">
-                                         <i class="fas fa-star"></i>
-                                         <span class="ml-1 text-sm">4.8</span>
+                            </div>
+                            <div class="dashboard-item p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-4" data-translate="community_leaders">Community Leaders</h3>
+                                <div class="space-y-4">
+                                     <div class="flex items-center p-3 bg-gray-100 rounded-lg">
+                                         <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="w-10 h-10 rounded-full">
+                                         <div class="ml-3">
+                                             <h4 class="font-semibold">Priya Sharma</h4>
+                                             <p class="text-xs" data-translate="leader_1_location">Mumbai • 42 reports</p>
+                                         </div>
+                                         <div class="ml-auto flex items-center text-yellow-500">
+                                             <i class="fas fa-star"></i>
+                                             <span class="ml-1 text-sm">4.8</span>
+                                         </div>
                                      </div>
-                                 </div>
-                                 <div class="flex items-center p-3 bg-gray-800/50 rounded-lg">
-                                     <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="w-10 h-10 rounded-full">
-                                     <div class="ml-3">
-                                         <h4 class="font-semibold text-white">Raj Patel</h4>
-                                         <p class="text-xs text-gray-400">Chennai • 38 reports</p>
+                                     <div class="flex items-center p-3 bg-gray-100 rounded-lg">
+                                         <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="w-10 h-10 rounded-full">
+                                         <div class="ml-3">
+                                             <h4 class="font-semibold">Raj Patel</h4>
+                                             <p class="text-xs" data-translate="leader_2_location">Chennai • 38 reports</p>
+                                         </div>
+                                         <div class="ml-auto flex items-center text-yellow-500">
+                                             <i class="fas fa-star"></i>
+                                             <span class="ml-1 text-sm">4.7</span>
+                                         </div>
                                      </div>
-                                     <div class="ml-auto flex items-center text-yellow-400">
-                                         <i class="fas fa-star"></i>
-                                         <span class="ml-1 text-sm">4.7</span>
+                                     <div class="flex items-center p-3 bg-gray-100 rounded-lg">
+                                         <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="w-10 h-10 rounded-full">
+                                         <div class="ml-3">
+                                             <h4 class="font-semibold">Anjali Mehta</h4>
+                                             <p class="text-xs" data-translate="leader_3_location">Kerala • 35 reports</p>
+                                         </div>
+                                         <div class="ml-auto flex items-center text-yellow-500">
+                                             <i class="fas fa-star"></i>
+                                             <span class="ml-1 text-sm">4.9</span>
+                                         </div>
                                      </div>
-                                 </div>
-                                 <div class="flex items-center p-3 bg-gray-800/50 rounded-lg">
-                                     <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="w-10 h-10 rounded-full">
-                                     <div class="ml-3">
-                                         <h4 class="font-semibold text-white">Anjali Mehta</h4>
-                                         <p class="text-xs text-gray-400">Kerala • 35 reports</p>
+                                </div>
+                                
+                                <h3 class="font-bold text-xl mt-8 mb-4" data-translate="trending_topics">Trending Topics</h3>
+                                <div class="space-y-2">
+                                     <div class="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                                         <span class="text-blue-600">#CoastalSafety</span>
+                                         <span class="text-xs" data-translate="posts_243">243 posts</span>
                                      </div>
-                                     <div class="ml-auto flex items-center text-yellow-400">
-                                         <i class="fas fa-star"></i>
-                                         <span class="ml-1 text-sm">4.9</span>
+                                     <div class="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                                         <span class="text-blue-600">#Monsoon2023</span>
+                                         <span class="text-xs" data-translate="posts_187">187 posts</span>
                                      </div>
-                                 </div>
-                             </div>
-                            
-                             <h3 class="font-bold text-xl text-white mt-8 mb-4">Trending Topics</h3>
-                             <div class="space-y-2">
-                                 <div class="flex items-center justify-between p-2 hover:bg-gray-800/50 rounded-lg cursor-pointer">
-                                     <span class="text-blue-400">#CoastalSafety</span>
-                                     <span class="text-xs text-gray-400">243 posts</span>
-                                 </div>
-                                 <div class="flex items-center justify-between p-2 hover:bg-gray-800/50 rounded-lg cursor-pointer">
-                                     <span class="text-blue-400">#Monsoon2023</span>
-                                     <span class="text-xs text-gray-400">187 posts</span>
-                                 </div>
-                                 <div class="flex items-center justify-between p-2 hover:bg-gray-800/50 rounded-lg cursor-pointer">
-                                     <span class="text-blue-400">#SaveOurOceans</span>
-                                     <span class="text-xs text-gray-400">156 posts</span>
-                                 </div>
-                                 <div class="flex items-center justify-between p-2 hover:bg-gray-800/50 rounded-lg cursor-pointer">
-                                     <span class="text-blue-400">#TsunamiDrill</span>
-                                     <span class="text-xs text-gray-400">132 posts</span>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
+                                     <div class="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                                         <span class="text-blue-600">#SaveOurOceans</span>
+                                         <span class="text-xs" data-translate="posts_156">156 posts</span>
+                                     </div>
+                                     <div class="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                                         <span class="text-blue-600">#TsunamiDrill</span>
+                                         <span class="text-xs" data-translate="posts_132">132 posts</span>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 
                  <div id="resources-view" class="view hidden">
-                     <h2 class="text-3xl font-bold text-white mb-6">Resources & Preparedness</h2>
-                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                         <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-xl text-white mb-4">Emergency Guidelines</h3>
-                             <div class="space-y-4">
-                                 <div class="p-4 bg-blue-900/20 rounded-lg">
-                                     <h4 class="font-semibold text-white flex items-center">
-                                         <i class="fas fa-water text-blue-400 mr-2"></i>
-                                         Tsunami Preparedness
-                                     </h4>
-                                     <p class="text-sm text-gray-300 mt-2">What to do before, during, and after a tsunami</p>
-                                     <button class="text-blue-400 text-sm mt-3 flex items-center">
-                                         View Guide
-                                         <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                                     </button>
-                                 </div>
-                                 <div class="p-4 bg-yellow-900/20 rounded-lg">
-                                     <h4 class="font-semibold text-white flex items-center">
-                                         <i class="fas fa-wind text-yellow-400 mr-2"></i>
-                                         Cyclone Safety
-                                     </h4>
-                                     <p class="text-sm text-gray-300 mt-2">How to protect yourself during a cyclone</p>
-                                     <button class="text-blue-400 text-sm mt-3 flex items-center">
-                                         View Guide
-                                         <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                                     </button>
-                                 </div>
-                                 <div class="p-4 bg-red-900/20 rounded-lg">
-                                     <h4 class="font-semibold text-white flex items-center">
-                                         <i class="fas fa-fire-extinguisher text-red-400 mr-2"></i>
-                                         Oil Spill Response
-                                     </h4>
-                                     <p class="text-sm text-gray-300 mt-2">Procedures for reporting and responding to oil spills</p>
-                                     <button class="text-blue-400 text-sm mt-3 flex items-center">
-                                         View Guide
-                                         <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                                     </button>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-xl text-white mb-4">Training Materials</h3>
-                             <div class="space-y-4">
-                                 <div class="flex items-start p-3 bg-gray-800/50 rounded-lg">
-                                     <i class="fas fa-video text-purple-400 mt-1 mr-3"></i>
-                                     <div>
-                                         <h4 class="font-semibold text-white">Coastal Hazard Identification</h4>
-                                         <p class="text-sm text-gray-400">Video tutorial • 15 min</p>
+                         <h2 class="text-3xl font-bold mb-6" data-translate="resources_preparedness">Resources & Preparedness</h2>
+                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                            <div class="dashboard-item p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-4" data-translate="emergency_guidelines">Emergency Guidelines</h3>
+                                <div class="space-y-4">
+                                     <div class="p-4 bg-blue-100 rounded-lg">
+                                         <h4 class="font-semibold flex items-center">
+                                             <i class="fas fa-water text-blue-600 mr-2"></i>
+                                             <span data-translate="tsunami_preparedness">Tsunami Preparedness</span>
+                                         </h4>
+                                         <p class="text-sm mt-2" data-translate="tsunami_preparedness_desc">What to do before, during, and after a tsunami</p>
+                                         <button class="text-blue-600 text-sm mt-3 flex items-center">
+                                             <span data-translate="view_guide">View Guide</span>
+                                             <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                                         </button>
                                      </div>
-                                 </div>
-                                 <div class="flex items-start p-3 bg-gray-800/50 rounded-lg">
-                                     <i class="fas fa-file-pdf text-red-400 mt-1 mr-3"></i>
-                                     <div>
-                                         <h4 class="font-semibold text-white">Emergency Reporting Protocol</h4>
-                                         <p class="text-sm text-gray-400">PDF Guide • 12 pages</p>
+                                     <div class="p-4 bg-yellow-100 rounded-lg">
+                                         <h4 class="font-semibold flex items-center">
+                                             <i class="fas fa-wind text-yellow-600 mr-2"></i>
+                                             <span data-translate="cyclone_safety">Cyclone Safety</span>
+                                         </h4>
+                                         <p class="text-sm mt-2" data-translate="cyclone_safety_desc">How to protect yourself during a cyclone</p>
+                                         <button class="text-blue-600 text-sm mt-3 flex items-center">
+                                             <span data-translate="view_guide">View Guide</span>
+                                             <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                                         </button>
                                      </div>
-                                 </div>
-                                 <div class="flex items-start p-3 bg-gray-800/50 rounded-lg">
-                                     <i class="fas fa-mobile-alt text-green-400 mt-1 mr-3"></i>
-                                     <div>
-                                         <h4 class="font-semibold text-white">Mobile App Tutorial</h4>
-                                         <p class="text-sm text-gray-400">Interactive tutorial • 10 min</p>
+                                     <div class="p-4 bg-red-100 rounded-lg">
+                                         <h4 class="font-semibold flex items-center">
+                                             <i class="fas fa-fire-extinguisher text-red-600 mr-2"></i>
+                                             <span data-translate="oil_spill_response">Oil Spill Response</span>
+                                         </h4>
+                                         <p class="text-sm mt-2" data-translate="oil_spill_response_desc">Procedures for reporting and responding to oil spills</p>
+                                         <button class="text-blue-600 text-sm mt-3 flex items-center">
+                                             <span data-translate="view_guide">View Guide</span>
+                                             <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                                         </button>
                                      </div>
-                                 </div>
-                                 <div class="flex items-start p-3 bg-gray-800/50 rounded-lg">
-                                     <i class="fas fa-certificate text-yellow-400 mt-1 mr-3"></i>
-                                     <div>
-                                         <h4 class="font-semibold text-white">Community Responder Certification</h4>
-                                         <p class="text-sm text-gray-400">Course • 4 modules</p>
+                                </div>
+                            </div>
+                            <div class="dashboard-item p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-4" data-translate="training_materials">Training Materials</h3>
+                                <div class="space-y-4">
+                                     <div class="flex items-start p-3 bg-gray-100 rounded-lg">
+                                         <i class="fas fa-video text-purple-600 mt-1 mr-3"></i>
+                                         <div>
+                                             <h4 class="font-semibold" data-translate="training_1_title">Coastal Hazard Identification</h4>
+                                             <p class="text-sm" data-translate="training_1_desc">Video tutorial • 15 min</p>
+                                         </div>
                                      </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                     
-                     <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                         <h3 class="font-bold text-xl text-white mb-4">Emergency Contacts</h3>
-                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                             <div class="p-4 bg-gray-800/50 rounded-lg text-center">
-                                 <div class="w-12 h-12 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-                                     <i class="fas fa-ambulance text-red-400"></i>
-                                 </div>
-                                 <h4 class="font-semibold text-white">Medical Emergency</h4>
-                                 <p class="text-lg text-gray-300 mt-2">108</p>
-                             </div>
-                             <div class="p-4 bg-gray-800/50 rounded-lg text-center">
-                                 <div class="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-                                     <i class="fas fa-police-box text-blue-400"></i>
-                                 </div>
-                                 <h4 class="font-semibold text-white">Police</h4>
-                                 <p class="text-lg text-gray-300 mt-2">100</p>
-                             </div>
-                             <div class="p-4 bg-gray-800/50 rounded-lg text-center">
-                                 <div class="w-12 h-12 bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-                                     <i class="fas fa-fire-extinguisher text-yellow-400"></i>
-                                 </div>
-                                 <h4 class="font-semibold text-white">Fire Department</h4>
-                                 <p class="text-lg text-gray-300 mt-2">101</p>
-                             </div>
-                             <div class="p-4 bg-gray-800/50 rounded-lg text-center">
-                                 <div class="w-12 h-12 bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-                                     <i class="fas fa-coast text-green-400"></i>
-                                 </div>
-                                 <h4 class="font-semibold text-white">Coast Guard</h4>
-                                 <p class="text-lg text-gray-300 mt-2">1554</p>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
+                                     <div class="flex items-start p-3 bg-gray-100 rounded-lg">
+                                         <i class="fas fa-file-pdf text-red-600 mt-1 mr-3"></i>
+                                         <div>
+                                             <h4 class="font-semibold" data-translate="training_2_title">Emergency Reporting Protocol</h4>
+                                             <p class="text-sm" data-translate="training_2_desc">PDF Guide • 12 pages</p>
+                                         </div>
+                                     </div>
+                                     <div class="flex items-start p-3 bg-gray-100 rounded-lg">
+                                         <i class="fas fa-mobile-alt text-green-600 mt-1 mr-3"></i>
+                                         <div>
+                                             <h4 class="font-semibold" data-translate="training_3_title">Mobile App Tutorial</h4>
+                                             <p class="text-sm" data-translate="training_3_desc">Interactive tutorial • 10 min</p>
+                                         </div>
+                                     </div>
+                                     <div class="flex items-start p-3 bg-gray-100 rounded-lg">
+                                         <i class="fas fa-certificate text-yellow-600 mt-1 mr-3"></i>
+                                         <div>
+                                             <h4 class="font-semibold" data-translate="training_4_title">Community Responder Certification</h4>
+                                             <p class="text-sm" data-translate="training_4_desc">Course • 4 modules</p>
+                                         </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-item p-6 rounded-xl">
+                            <h3 class="font-bold text-xl mb-4" data-translate="emergency_contacts">Emergency Contacts</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div class="p-4 bg-gray-100 rounded-lg text-center">
+                                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                        <i class="fas fa-ambulance text-red-600"></i>
+                                    </div>
+                                    <h4 class="font-semibold" data-translate="contact_medical">Medical Emergency</h4>
+                                    <p class="text-lg mt-2">108</p>
+                                </div>
+                                <div class="p-4 bg-gray-100 rounded-lg text-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                        <i class="fas fa-shield-alt text-blue-600"></i>
+                                    </div>
+                                    <h4 class="font-semibold" data-translate="contact_police">Police</h4>
+                                    <p class="text-lg mt-2">100</p>
+                                </div>
+                                <div class="p-4 bg-gray-100 rounded-lg text-center">
+                                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                        <i class="fas fa-fire-extinguisher text-yellow-600"></i>
+                                    </div>
+                                    <h4 class="font-semibold" data-translate="contact_fire">Fire Department</h4>
+                                    <p class="text-lg mt-2">101</p>
+                                </div>
+                                <div class="p-4 bg-gray-100 rounded-lg text-center">
+                                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                        <i class="fas fa-life-ring text-green-600"></i>
+                                    </div>
+                                    <h4 class="font-semibold" data-translate="contact_coast_guard">Coast Guard</h4>
+                                    <p class="text-lg mt-2">1554</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 
                  <div id="settings-view" class="view hidden">
-                     <h2 class="text-3xl font-bold text-white mb-6">Settings</h2>
-                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                         <div class="lg:col-span-2 dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-xl text-white mb-4">Profile Settings</h3>
-                             <div class="space-y-4">
-                                 <div class="flex items-center">
-                                     <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar" class="w-16 h-16 rounded-full border-2 border-blue-400">
-                                     <div class="ml-4">
-                                         <button class="text-blue-400 text-sm">Change Avatar</button>
-                                         <p class="text-xs text-gray-400 mt-1">JPG, GIF or PNG. Max size of 5MB.</p>
+                         <h2 class="text-3xl font-bold mb-6" data-translate="settings">Settings</h2>
+                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2 dashboard-item p-6 rounded-xl">
+                                 <h3 class="font-bold text-xl mb-4" data-translate="profile_settings">Profile Settings</h3>
+                                 <form id="profile-settings-form">
+                                     <div class="space-y-4">
+                                         <div class="flex items-center">
+                                             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar" id="settings-avatar" class="w-16 h-16 rounded-full border-2 border-blue-400">
+                                             <div class="ml-4">
+                                                 <button type="button" id="change-avatar-btn" class="text-blue-600 text-sm" data-translate="change_avatar">Change Avatar</button>
+                                                 <p class="text-xs mt-1" data-translate="change_avatar_desc">JPG, GIF or PNG. Max size of 5MB.</p>
+                                                 <input type="file" id="avatar-upload" class="hidden" accept="image/*">
+                                             </div>
+                                         </div>
+                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                             <div>
+                                                 <label class="block text-sm mb-1" data-translate="first_name">First Name</label>
+                                                 <input type="text" id="first-name-input" value="John" class="w-full rounded-lg p-3 outline-none transition-all">
+                                             </div>
+                                             <div>
+                                                 <label class="block text-sm mb-1" data-translate="last_name">Last Name</label>
+                                                 <input type="text" id="last-name-input" value="Doe" class="w-full rounded-lg p-3 outline-none transition-all">
+                                             </div>
+                                         </div>
+                                         <div>
+                                             <label class="block text-sm mb-1" data-translate="email">Email</label>
+                                             <input type="email" id="email-input" value="user@example.com" readonly class="w-full rounded-lg p-3 outline-none transition-all cursor-not-allowed bg-gray-100">
+                                         </div>
+                                         <div>
+                                             <label class="block text-sm mb-1" data-translate="bio">Bio</label>
+                                             <textarea id="bio-input" class="w-full rounded-lg p-3 outline-none transition-all h-24" data-translate="bio_placeholder">Coastal safety enthusiast and environmental volunteer.</textarea>
+                                         </div>
+                                         <div>
+                                             <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors" data-translate="save_changes">Save Changes</button>
+                                         </div>
                                      </div>
-                                 </div>
-                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                     <div>
-                                         <label class="block text-sm text-gray-400 mb-1">First Name</label>
-                                         <input type="text" value="John" class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 outline-none transition-all">
+                                 </form>
+                            </div>
+                            <div class="dashboard-item p-6 rounded-xl">
+                                <h3 class="font-bold text-xl mb-4" data-translate="account_settings">Account Settings</h3>
+                                <form id="password-change-form">
+                                     <div class="space-y-4">
+                                         <div>
+                                             <h4 class="font-semibold mb-2" data-translate="change_password">Change Password</h4>
+                                             <div class="space-y-3">
+                                                 <input type="password" id="current-password" placeholder="Current Password" class="w-full rounded-lg p-3 outline-none transition-all">
+                                                 <input type="password" id="new-password" placeholder="New Password" class="w-full rounded-lg p-3 outline-none transition-all">
+                                                 <input type="password" id="confirm-new-password" placeholder="Confirm New Password" class="w-full rounded-lg p-3 outline-none transition-all">
+                                             </div>
+                                             <button type="submit" class="bg-gray-200 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition-colors mt-3" data-translate="update_password">Update Password</button>
+                                         </div>
+                                         <div class="pt-4 border-t">
+                                             <h4 class="font-semibold text-red-600 mb-2" data-translate="danger_zone">Danger Zone</h4>
+                                             <p class="text-sm mb-3" data-translate="danger_zone_desc">Once you delete your account, there is no going back. Please be certain.</p>
+                                             <button type="button" class="bg-red-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-700 transition-colors" data-translate="delete_account">Delete Account</button>
+                                         </div>
                                      </div>
-                                     <div>
-                                         <label class="block text-sm text-gray-400 mb-1">Last Name</label>
-                                         <input type="text" value="Doe" class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 outline-none transition-all">
-                                     </div>
-                                 </div>
-                                 <div>
-                                     <label class="block text-sm text-gray-400 mb-1">Email</label>
-                                     <input type="email" value="user@example.com" class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 outline-none transition-all">
-                                 </div>
-                                 <div>
-                                     <label class="block text-sm text-gray-400 mb-1">Bio</label>
-                                     <textarea class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 outline-none transition-all h-24">Coastal safety enthusiast and environmental volunteer.</textarea>
-                                 </div>
-                                 <div>
-                                     <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">Save Changes</button>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="dashboard-item bg-[var(--color-surface)] p-6 rounded-xl border border-[var(--color-border)]">
-                             <h3 class="font-bold text-xl text-white mb-4">Account Settings</h3>
-                             <div class="space-y-4">
-                                 <div>
-                                     <h4 class="font-semibold text-white mb-2">Change Password</h4>
-                                     <div class="space-y-3">
-                                         <input type="password" placeholder="Current Password" class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 outline-none transition-all">
-                                         <input type="password" placeholder="New Password" class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 outline-none transition-all">
-                                         <input type="password" placeholder="Confirm New Password" class="w-full bg-black/50 border border-gray-700 text-white rounded-lg p-3 outline-none transition-all">
-                                     </div>
-                                     <button class="bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors mt-3">Update Password</button>
-                                 </div>
-                                 <div class="pt-4 border-t border-gray-700">
-                                     <h4 class="font-semibold text-white mb-2">Danger Zone</h4>
-                                     <p class="text-sm text-gray-400 mb-3">Once you delete your account, there is no going back. Please be certain.</p>
-                                     <button class="bg-red-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-700 transition-colors">Delete Account</button>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <footer class="text-center py-8 mt-8 border-t border-[var(--color-border)]">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                      <!-- NEW TEAM VIEW -->
+                      <div id="team-view" class="view hidden">
+                           <div class="fixed inset-0 team-view-bg z-0"></div>
+                           <div class="relative z-10 w-full max-w-7xl mx-auto px-6 py-8">
+                               <h2 class="text-3xl font-bold mb-6 text-center" data-translate="meet_the_team">Meet The Team</h2>
+                               <div id="team-members-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                                   <!-- Team members will be rendered here dynamically -->
+                               </div>
+                           </div>
+                       </div>
+                      <!-- END NEW TEAM VIEW -->
+            </div>
+            <footer class="text-center py-8 mt-8 border-t border-[var(--color-border)]">
                  <p class="text-sm text-[var(--color-text-secondary)]">&copy; 2024 Seasense. All Rights Reserved.</p>
                  <div class="mt-2 space-x-4 text-xs">
-                     <a href="#" class="hover:text-[var(--color-primary-light)] transition-colors">Privacy Policy</a>
-                     <a href="#" class="hover:text-[var(--color-primary-light)] transition-colors">Terms of Service</a>
-                     <a href="#" class="hover:text-[var(--color-primary-light)] transition-colors">Contact Us</a>
-                     <a href="#" class="hover:text-[var(--color-primary-light)] transition-colors">About</a>
+                     <a href="#" class="hover:text-[var(--color-primary-light)] transition-colors" data-translate="privacy_policy">Privacy Policy</a>
+                     <a href="#" class="hover:text-[var(--color-primary-light)] transition-colors" data-translate="terms_of_service">Terms of Service</a>
+                     <a href="#" class="hover:text-[var(--color-primary-light)] transition-colors" data-translate="contact_us">Contact Us</a>
+                     <a href="#" class="hover:text-[var(--color-primary-light)] transition-colors" data-translate="about">About</a>
                  </div>
-             </footer>
+            </footer>
         </main>
-    </div>
-
-    <div class="fixed bottom-6 right-6 z-50">
-        <button id="open-team-modal-btn" class="bg-blue-600 text-white w-14 h-14 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition transform hover:scale-110 flex items-center justify-center floating">
-            <i class="fas fa-users text-xl"></i>
-        </button>
-    </div>
-
-    <div id="team-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm">
-        <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl shadow-2xl w-full max-w-md p-6">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-white">Meet The Team</h2>
-                <button id="close-team-modal-btn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-            </div>
-            <ul class="space-y-4 text-lg text-gray-300">
-                <li class="flex items-center"><span class="bg-blue-500/20 text-blue-300 text-xs font-bold mr-4 w-10 h-10 rounded-full flex items-center justify-center">SSG</span> Suyash Singh Gusain</li>
-                <li class="flex items-center"><span class="bg-green-500/20 text-green-300 text-xs font-bold mr-4 w-10 h-10 rounded-full flex items-center justify-center">TM</span> Tanmay Madan</li>
-                <li class="flex items-center"><span class="bg-purple-500/20 text-purple-300 text-xs font-bold mr-4 w-10 h-10 rounded-full flex items-center justify-center">SA</span> Saara Ahmed</li>
-                <li class="flex items-center"><span class="bg-yellow-500/20 text-yellow-300 text-xs font-bold mr-4 w-10 h-10 rounded-full flex items-center justify-center">TM</span> Titas Mahato</li>
-                <li class="flex items-center"><span class="bg-red-500/20 text-red-300 text-xs font-bold mr-4 w-10 h-10 rounded-full flex items-center justify-center">AKS</span> Achyut Krishna Sharma</li>
-                <li class="flex items-center"><span class="bg-indigo-500/20 text-indigo-300 text-xs font-bold mr-4 w-10 h-10 rounded-full flex items-center justify-center">ARS</span> Aditya Raj Singh</li>
-            </ul>
-        </div>
     </div>
     
     <div id="report-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-        <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div class="p-6 border-b border-gray-700 flex justify-between items-center sticky top-0 bg-[var(--color-surface)]">
-                <h2 class="text-2xl font-bold text-white">Submit New Report</h2>
-                <button class="close-modal text-gray-400 hover:text-white text-2xl">&times;</button>
+        <div class="rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b flex justify-between items-center sticky top-0">
+                <h2 class="text-2xl font-bold" data-translate="submit_new_report_modal">Submit New Report</h2>
+                <button class="close-modal text-2xl">&times;</button>
             </div>
             <form id="report-form" class="p-6 space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Hazard Type</label>
-                        <select id="report-type" class="w-full bg-black border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
-                            <option value="">Select a hazard type</option>
-                            <option value="tsunami">Tsunami Alert</option>
-                            <option value="storm">Storm Warning</option>
-                            <option value="oil">Oil Spill</option>
-                            <option value="flood">Coastal Flooding</option>
-                            <option value="erosion">Coastal Erosion</option>
-                            <option value="wildlife">Marine Life Disturbance</option>
-                            <option value="other">Other</option>
+                        <label class="block text-sm mb-1" data-translate="hazard_type">Hazard Type</label>
+                        <select id="report-type" class="w-full rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                            <option value="" data-translate="select_hazard_type">Select a hazard type</option>
+                            <option value="tsunami" data-translate="hazard_tsunami">Tsunami Alert</option>
+                            <option value="storm" data-translate="hazard_storm">Storm Warning</option>
+                            <option value="oil" data-translate="hazard_oil">Oil Spill</option>
+                            <option value="flood" data-translate="hazard_flood">Coastal Flooding</option>
+                            <option value="erosion" data-translate="hazard_erosion">Coastal Erosion</option>
+                            <option value="wildlife" data-translate="hazard_wildlife">Marine Life Disturbance</option>
+                            <option value="other" data-translate="hazard_other">Other</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Severity Level</label>
-                        <select id="severity" class="w-full bg-black border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                            <option value="critical">Critical</option>
+                        <label class="block text-sm mb-1" data-translate="severity_level">Severity Level</label>
+                        <select id="severity" class="w-full rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                            <option value="low" data-translate="low">Low</option>
+                            <option value="medium" data-translate="medium">Medium</option>
+                            <option value="high" data-translate="high">High</option>
+                            <option value="critical" data-translate="critical">Critical</option>
                         </select>
                     </div>
                 </div>
                 
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">Location</label>
-                    <input type="text" id="location" placeholder="e.g., Chennai, Tamil Nadu" class="w-full bg-black border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    <label class="block text-sm mb-1" data-translate="location">Location</label>
+                    <input type="text" id="location" placeholder="e.g., Chennai, Tamil Nadu" class="w-full rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Latitude</label>
-                        <input type="text" id="latitude" placeholder="e.g., 13.0827" class="w-full bg-black border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                        <label class="block text-sm mb-1" data-translate="latitude">Latitude</label>
+                        <input type="text" id="latitude" placeholder="e.g., 13.0827" class="w-full rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Longitude</label>
-                        <input type="text" id="longitude" placeholder="e.g., 80.2707" class="w-full bg-black border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                        <label class="block text-sm mb-1" data-translate="longitude">Longitude</label>
+                        <input type="text" id="longitude" placeholder="e.g., 80.2707" class="w-full rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
                     </div>
                 </div>
                 
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">Description</label>
-                    <textarea id="description" rows="4" placeholder="Provide details about the hazard" class="w-full bg-black border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all"></textarea>
+                    <label class="block text-sm mb-1" data-translate="description">Description</label>
+                    <textarea id="description" rows="4" placeholder="Provide details about the hazard" class="w-full rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all"></textarea>
                 </div>
                 
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">Upload Evidence (Optional)</label>
+                    <label class="block text-sm mb-1" data-translate="upload_evidence">Upload Evidence (Optional)</label>
                     <div class="flex items-center justify-center w-full">
-                        <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-700 border-dashed rounded-lg cursor-pointer bg-black/50 hover:bg-gray-800/50 transition-colors">
+                        <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2"></i>
-                                <p class="mb-2 text-sm text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-400">PNG, JPG, GIF up to 10MB</p>
+                                <i class="fas fa-cloud-upload-alt text-2xl mb-2"></i>
+                                <p class="mb-2 text-sm"><span class="font-semibold" data-translate="click_to_upload">Click to upload</span> <span data-translate="or_drag_drop">or drag and drop</span></p>
+                                <p class="text-xs" data-translate="file_types">PNG, JPG, GIF up to 10MB</p>
                             </div>
                             <input id="dropzone-file" type="file" class="hidden" />
                         </label>
@@ -1271,13 +1454,13 @@
                 </div>
                 
                 <div class="flex items-center">
-                    <input id="urgent-checkbox" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-600 ring-offset-gray-800 focus:ring-2">
-                    <label for="urgent-checkbox" class="ms-2 text-sm font-medium text-gray-300">Mark as urgent</label>
+                    <input id="urgent-checkbox" type="checkbox" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-600 ring-offset-gray-100 focus:ring-2">
+                    <label for="urgent-checkbox" class="ms-2 text-sm font-medium" data-translate="mark_as_urgent">Mark as urgent</label>
                 </div>
                 
                 <div class="flex justify-end space-x-4 pt-4">
-                    <button type="button" id="cancel-btn" class="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white font-semibold transition-colors">Cancel</button>
-                    <button type="submit" class="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors">Submit Report</button>
+                    <button type="button" id="cancel-btn" class="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold transition-colors" data-translate="cancel">Cancel</button>
+                    <button type="submit" class="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors" data-translate="submit_report">Submit Report</button>
                 </div>
             </form>
         </div>
@@ -1285,39 +1468,39 @@
     
     <!-- Quick Report Modal -->
     <div id="quick-report-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-        <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl shadow-2xl w-full max-w-lg">
-            <div class="p-6 border-b border-gray-700 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-red-400 flex items-center"><i class="fas fa-exclamation-triangle mr-3"></i>Emergency Report</h2>
-                <button id="close-quick-report-modal-btn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+        <div class="rounded-xl shadow-2xl w-full max-w-lg">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-red-500 flex items-center"><i class="fas fa-exclamation-triangle mr-3"></i><span data-translate="emergency_report">Emergency Report</span></h2>
+                <button id="close-quick-report-modal-btn" class="text-2xl">&times;</button>
             </div>
             <form id="quick-report-form" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">Hazard Type</label>
-                    <select id="quick-report-type" class="w-full bg-black border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-red-500 outline-none transition-all">
-                        <option value="">Select a hazard type</option>
-                        <option value="tsunami">Tsunami Alert</option>
-                        <option value="storm">Storm Warning</option>
-                        <option value="oil">Oil Spill</option>
-                        <option value="flood">Coastal Flooding</option>
-                        <option value="erosion">Coastal Erosion</option>
-                        <option value="wildlife">Marine Life Disturbance</option>
-                        <option value="other">Other</option>
+                    <label class="block text-sm mb-1" data-translate="hazard_type">Hazard Type</label>
+                    <select id="quick-report-type" class="w-full rounded-lg p-3 focus:ring-2 focus:ring-red-500 outline-none transition-all">
+                        <option value="" data-translate="select_hazard_type">Select a hazard type</option>
+                        <option value="tsunami" data-translate="hazard_tsunami">Tsunami Alert</option>
+                        <option value="storm" data-translate="hazard_storm">Storm Warning</option>
+                        <option value="oil" data-translate="hazard_oil">Oil Spill</option>
+                        <option value="flood" data-translate="hazard_flood">Coastal Flooding</option>
+                        <option value="erosion" data-translate="hazard_erosion">Coastal Erosion</option>
+                        <option value="wildlife" data-translate="hazard_wildlife">Marine Life Disturbance</option>
+                        <option value="other" data-translate="hazard_other">Other</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">Location</label>
+                    <label class="block text-sm mb-1" data-translate="location">Location</label>
                     <div class="flex items-center space-x-2">
-                        <input type="text" id="quick-location" placeholder="e.g., Near Marina Beach" class="w-full bg-black border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-red-500 outline-none transition-all">
-                        <button type="button" id="get-location-quick" class="p-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors h-full" title="Get current location"><i class="fas fa-map-marker-alt"></i></button>
+                        <input type="text" id="quick-location" placeholder="e.g., Near Marina Beach" class="w-full rounded-lg p-3 focus:ring-2 focus:ring-red-500 outline-none transition-all">
+                        <button type="button" id="get-location-quick" class="p-3 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors h-full" title="Get current location"><i class="fas fa-map-marker-alt"></i></button>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-400 mb-1">Brief Description (Optional)</label>
-                    <textarea id="quick-description" rows="3" placeholder="e.g., Saw large waves approaching the shore." class="w-full bg-black border border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-red-500 outline-none transition-all"></textarea>
+                    <label class="block text-sm mb-1" data-translate="brief_description">Brief Description (Optional)</label>
+                    <textarea id="quick-description" rows="3" placeholder="e.g., Saw large waves approaching the shore." class="w-full rounded-lg p-3 focus:ring-2 focus:ring-red-500 outline-none transition-all"></textarea>
                 </div>
                 <div class="flex justify-end space-x-4 pt-4">
-                    <button type="button" id="cancel-quick-report-btn" class="px-6 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white font-semibold transition-colors">Cancel</button>
-                    <button type="submit" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-colors">Submit Emergency Report</button>
+                    <button type="button" id="cancel-quick-report-btn" class="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold transition-colors" data-translate="cancel">Cancel</button>
+                    <button type="submit" class="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-colors" data-translate="submit_emergency_report">Submit Emergency Report</button>
                 </div>
             </form>
         </div>
@@ -1330,12 +1513,24 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        let map, fullscreenMap, reportsChart, typesChart, miniChart, markers = [], currentUser = null, dashboardListenersSetup = false;
+        let map, fullscreenMap, reportsChart, typesChart, miniChart, markers = [], heatmapCircles = [], currentUser = null, dashboardListenersSetup = false, satelliteLayer = null, osmLayer = null;
+        
         const users = [
-            { email: "user@example.com", password: "password123", name: "John Doe", role: "official", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
-            { email: "citizen@example.com", password: "password123", name: "Priya Sharma", role: "citizen", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
-            { email: "analyst@example.com", password: "password123", name: "Raj Patel", role: "analyst", avatar: "https://randomuser.me/api/portraits/men/22.jpg" }
+            { email: "user@example.com", password: "password123", firstName: "John", lastName: "Doe", role: "official", avatar: "https://randomuser.me/api/portraits/men/32.jpg", bio: "Coastal safety enthusiast and environmental volunteer." },
+            { email: "citizen@example.com", password: "password123", firstName: "Priya", lastName: "Sharma", role: "citizen", avatar: "https://randomuser.me/api/portraits/women/65.jpg", bio: "Marine biologist and avid surfer." },
+            { email: "analyst@example.com", password: "password123", firstName: "Raj", lastName: "Patel", role: "analyst", avatar: "https://randomuser.me/api/portraits/men/22.jpg", bio: "Data scientist passionate about climate change." }
         ];
+        const teamMembers = [
+            { name: "Suyash Singh Gusain", email: "suyash.gusain@example.com", role: "Frontend Lead", avatar: "https://randomuser.me/api/portraits/men/1.jpg" },
+            { name: "Tanmay Madan", email: "tanmay.madan@example.com", role: "Backend Architect", avatar: "https://randomuser.me/api/portraits/men/2.jpg" },
+            { name: "Saara Ahmed", email: "saara.ahmed@example.com", role: "UI/UX Designer", avatar: "https://randomuser.me/api/portraits/women/3.jpg" },
+            { name: "Titas Mahato", email: "titas.mahato@example.com", role: "Data Scientist", avatar: "https://randomuser.me/api/portraits/men/4.jpg" },
+            { name: "Achyut Krishna Sharma", email: "achyut.sharma@example.com", role: "Mobile Developer", avatar: "https://randomuser.me/api/portraits/men/5.jpg" },
+            { name: "Aditya Raj Singh", email: "aditya.singh@example.com", role: "QA Engineer", avatar: "https://randomuser.me/api/portraits/men/6.jpg" },
+            { name: "Jane Smith", email: "jane.smith@example.com", role: "Project Manager", avatar: "https://randomuser.me/api/portraits/women/7.jpg" },
+            { name: "Chris Evans", email: "chris.evans@example.com", role: "Community Manager", avatar: "https://randomuser.me/api/portraits/men/8.jpg" }
+        ];
+
         let reports = [
             { id: 'RPT-001', type: "tsunami", title: "High Waves Alert", location: "Eastern Coast", time: "15 min ago", severity: 'High', status: 'Verified', lat: 13.0827, lon: 80.2707 },
             { id: 'RPT-002', type: "oil", title: "Oil Spill Sighting", location: "Northern Bay", time: "42 min ago", severity: 'Medium', status: 'Investigating', lat: 19.0760, lon: 72.8777 },
@@ -1353,17 +1548,20 @@
         ];
         
         const pageTitle = document.getElementById('page-title'),
-            loginPage = document.getElementById('login-page'),
-            loginContainer = document.getElementById('login-container'),
-            dashboard = document.getElementById('dashboard'),
-            loginForm = document.getElementById('login-form'),
-            signupForm = document.getElementById('signup-form'),
-            loginTab = document.getElementById('login-tab'),
-            signupTab = document.getElementById('signup-tab'),
-            loginBtn = document.getElementById('login-btn'),
-            signupBtn = document.getElementById('signup-btn');
+              loginPage = document.getElementById('login-page'),
+              loginContainer = document.getElementById('login-container'),
+              dashboard = document.getElementById('dashboard'),
+              loginForm = document.getElementById('login-form'),
+              signupForm = document.getElementById('signup-form'),
+              loginTab = document.getElementById('login-tab'),
+              signupTab = document.getElementById('signup-tab'),
+              loginBtn = document.getElementById('login-btn'),
+              signupBtn = document.getElementById('signup-btn');
 
         function init() {
+            applyTheme();
+            applyLanguage();
+            
             const savedUser = localStorage.getItem('currentUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
@@ -1502,20 +1700,27 @@
             if (dashboardListenersSetup) return;
 
             const reportBtn = document.getElementById('report-btn'),
-                reportViewBtn = document.getElementById('report-view-btn'),
-                reportModal = document.getElementById('report-modal'),
-                closeModalBtn = document.querySelector('.close-modal'),
-                cancelBtn = document.getElementById('cancel-btn'),
-                reportForm = document.getElementById('report-form'),
-                logoutBtn = document.getElementById('logout-btn'),
-                sidebarLinks = document.querySelectorAll('.sidebar-link'),
-                views = document.querySelectorAll('.view'),
-                sidebarToggleBtn = document.getElementById('sidebar-toggle-btn'),
-                mobileMenuBtn = document.getElementById('mobile-menu-btn'),
-                openTeamModalBtn = document.getElementById('open-team-modal-btn'),
-                teamModal = document.getElementById('team-modal'),
-                closeTeamModalBtn = document.getElementById('close-team-modal-btn'),
-                notificationsBtn = document.getElementById('notifications-btn');
+                  reportViewBtn = document.getElementById('report-view-btn'),
+                  reportModal = document.getElementById('report-modal'),
+                  closeModalBtn = document.querySelector('.close-modal'),
+                  cancelBtn = document.getElementById('cancel-btn'),
+                  reportForm = document.getElementById('report-form'),
+                  logoutBtn = document.getElementById('logout-btn'),
+                  sidebarLinks = document.querySelectorAll('.sidebar-link'),
+                  sidebarToggleBtn = document.getElementById('sidebar-toggle-btn'),
+                  mobileMenuBtn = document.getElementById('mobile-menu-btn'),
+                  notificationsBtn = document.getElementById('notifications-btn'),
+                  themeToggleBtn = document.getElementById('theme-toggle-btn'),
+                  themeDropdown = document.getElementById('theme-dropdown'),
+                  themeOptions = document.querySelectorAll('.theme-option'),
+                  languageToggleBtn = document.getElementById('language-toggle-btn'),
+                  languageDropdown = document.getElementById('language-dropdown'),
+                  languageOptions = document.querySelectorAll('.language-option'),
+                  homeMapHeatmapBtn = document.getElementById('home-map-heatmap-btn'),
+                  homeMapSatelliteBtn = document.getElementById('home-map-satellite-btn'),
+                  fullscreenMapHeatmapBtn = document.getElementById('fullscreen-map-heatmap-btn'),
+                  fullscreenMapSatelliteBtn = document.getElementById('fullscreen-map-satellite-btn');
+
             
             if(reportBtn) reportBtn.addEventListener('click', () => reportModal.classList.remove('hidden'));
             if(reportViewBtn) reportViewBtn.addEventListener('click', () => reportModal.classList.remove('hidden'));
@@ -1523,14 +1728,6 @@
             if(cancelBtn) cancelBtn.addEventListener('click', () => reportModal.classList.add('hidden'));
             if(reportForm) reportForm.addEventListener('submit', submitReport);
             if(logoutBtn) logoutBtn.addEventListener('click', logout);
-            
-            if(openTeamModalBtn) openTeamModalBtn.addEventListener('click', () => teamModal.classList.remove('hidden'));
-            if(closeTeamModalBtn) closeTeamModalBtn.addEventListener('click', () => teamModal.classList.add('hidden'));
-            if(teamModal) teamModal.addEventListener('click', (e) => {
-                if (e.target === teamModal) {
-                    teamModal.classList.add('hidden');
-                }
-            });
             
             if(notificationsBtn) notificationsBtn.addEventListener('click', () => {
                 switchView('alerts-view');
@@ -1557,6 +1754,34 @@
             if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => {
                 document.querySelector('aside').classList.toggle('active');
             });
+
+            if(themeToggleBtn) themeToggleBtn.addEventListener('click', () => themeDropdown.classList.toggle('hidden'));
+            if(languageToggleBtn) languageToggleBtn.addEventListener('click', () => languageDropdown.classList.toggle('hidden'));
+
+            themeOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const theme = option.getAttribute('data-theme');
+                    localStorage.setItem('theme', theme);
+                    applyTheme();
+                    themeDropdown.classList.add('hidden');
+                });
+            });
+
+            languageOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = option.getAttribute('data-lang');
+                    localStorage.setItem('language', lang);
+                    applyLanguage();
+                    languageDropdown.classList.add('hidden');
+                });
+            });
+            
+            if (homeMapHeatmapBtn) homeMapHeatmapBtn.addEventListener('click', () => toggleMapLayer('map', 'heatmap'));
+            if (homeMapSatelliteBtn) homeMapSatelliteBtn.addEventListener('click', () => toggleMapLayer('map', 'satellite'));
+            if (fullscreenMapHeatmapBtn) fullscreenMapHeatmapBtn.addEventListener('click', () => toggleMapLayer('map-fullscreen', 'heatmap'));
+            if (fullscreenMapSatelliteBtn) fullscreenMapSatelliteBtn.addEventListener('click', () => toggleMapLayer('map-fullscreen', 'satellite'));
             
             function handleFilterClick(e, viewId) {
                 const parent = e.target.closest('.view');
@@ -1564,10 +1789,90 @@
                 e.target.classList.add('active');
                 renderSocialFeed(viewId, e.target.dataset.platform);
             }
-
+            
+            setupSettingsEventListeners();
             dashboardListenersSetup = true;
         }
         
+        function setupSettingsEventListeners() {
+            const profileForm = document.getElementById('profile-settings-form');
+            const passwordForm = document.getElementById('password-change-form');
+            const changeAvatarBtn = document.getElementById('change-avatar-btn');
+            const avatarUploadInput = document.getElementById('avatar-upload');
+
+            if (changeAvatarBtn) {
+                changeAvatarBtn.addEventListener('click', () => {
+                    avatarUploadInput.click();
+                });
+            }
+
+            if (avatarUploadInput) {
+                avatarUploadInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const newAvatarSrc = event.target.result;
+                            currentUser.avatar = newAvatarSrc;
+                            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                            document.getElementById('settings-avatar').src = newAvatarSrc;
+                            document.getElementById('user-avatar').src = newAvatarSrc;
+                            showNotification('Avatar updated successfully!');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+            
+            if (profileForm) {
+                profileForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    currentUser.firstName = document.getElementById('first-name-input').value;
+                    currentUser.lastName = document.getElementById('last-name-input').value;
+                    currentUser.bio = document.getElementById('bio-input').value;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    document.getElementById('user-name').textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+                    showNotification('Profile updated successfully!');
+                });
+            }
+
+            if (passwordForm) {
+                passwordForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const currentPassword = document.getElementById('current-password').value;
+                    const newPassword = document.getElementById('new-password').value;
+                    const confirmNewPassword = document.getElementById('confirm-new-password').value;
+
+                    if (currentPassword !== currentUser.password) {
+                        showNotification('Current password is incorrect.', true);
+                        return;
+                    }
+                    if (newPassword !== confirmNewPassword) {
+                        showNotification('New passwords do not match.', true);
+                        return;
+                    }
+                    if (!newPassword) {
+                        showNotification('New password cannot be empty.', true);
+                        return;
+                    }
+
+                    currentUser.password = newPassword;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    passwordForm.reset();
+                    showNotification('Password updated successfully!');
+                });
+            }
+        }
+
+        function populateSettingsForm() {
+            if (!currentUser) return;
+            document.getElementById('settings-avatar').src = currentUser.avatar;
+            document.getElementById('first-name-input').value = currentUser.firstName;
+            document.getElementById('last-name-input').value = currentUser.lastName;
+            document.getElementById('email-input').value = currentUser.email;
+            document.getElementById('bio-input').value = currentUser.bio || '';
+        }
+
         function switchView(viewId) {
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const views = document.querySelectorAll('.view');
@@ -1578,8 +1883,14 @@
             const activeLink = document.querySelector(`[data-view="${viewId}"]`);
             if(activeLink) activeLink.classList.add('active');
             
-            const linkText = activeLink.querySelector('.link-text');
-            if(linkText) pageTitle.textContent = linkText.textContent;
+            const linkTextKey = activeLink.querySelector('.link-text').dataset.translate;
+            const currentLang = localStorage.getItem('language') || 'en';
+            if(translations[currentLang] && translations[currentLang][linkTextKey]) {
+                pageTitle.textContent = translations[currentLang][linkTextKey];
+            } else {
+                 pageTitle.textContent = activeLink.querySelector('.link-text').textContent;
+            }
+
 
             setTimeout(() => {
                 if (viewId === 'community-view') {
@@ -1591,9 +1902,16 @@
                      renderSocialFeed('home-view');
                 }
                 if (viewId === 'analytics-view') initAnalyticsCharts();
+                if (viewId === 'reports-view') populateReportsTable();
                 if (viewId === 'map-view' || viewId === 'home-view') {
-                   const mapId = viewId === 'home-view' ? 'map' : 'map-fullscreen';
-                   initMap(mapId, viewId === 'map-view');
+                    const mapId = viewId === 'home-view' ? 'map' : 'map-fullscreen';
+                    initMap(mapId, mapId === 'map-fullscreen');
+                }
+                if (viewId === 'settings-view') {
+                    populateSettingsForm();
+                }
+                if (viewId === 'team-view') {
+                    renderTeamView();
                 }
             }, 100);
         }
@@ -1730,7 +2048,16 @@
             document.getElementById('signup-spinner').classList.remove('hidden');
             
             setTimeout(() => {
-                const newUser = { email, password, name, role: document.getElementById('role').value, avatar: 'https://randomuser.me/api/portraits/women/50.jpg'};
+                const nameParts = name.split(' ');
+                const newUser = { 
+                    email, 
+                    password, 
+                    firstName: nameParts[0],
+                    lastName: nameParts.slice(1).join(' '),
+                    role: document.getElementById('role').value, 
+                    avatar: 'https://randomuser.me/api/portraits/women/50.jpg',
+                    bio: ''
+                };
                 users.push(newUser);
                 currentUser = newUser;
                 localStorage.setItem('currentUser', JSON.stringify(newUser));
@@ -1762,8 +2089,9 @@
             setTimeout(() => {
                 loginPage.classList.add('hidden');
                 dashboard.classList.remove('hidden');
-                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('user-name').textContent = `${currentUser.firstName} ${currentUser.lastName}`;
                 document.getElementById('user-role').textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+                document.getElementById('user-avatar').src = currentUser.avatar;
                 
                 setupDashboardEventListeners();
                 
@@ -1783,25 +2111,33 @@
         
         function initMap(mapId, isFullscreen = false) {
             let mapInstance = isFullscreen ? fullscreenMap : map;
+            if (mapInstance && document.getElementById(mapId)) {
+                mapInstance.off();
+                mapInstance.remove();
+                mapInstance = null;
+            }
             if (!mapInstance) {
                 mapInstance = L.map(mapId).setView([20.5937, 78.9629], 5);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(mapInstance);
                 
-                // Add a custom layer for satellite view option
-                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                // Define layers
+                osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                });
+                satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-                }).addTo(mapInstance);
+                });
+                
+                // Add default layer
+                osmLayer.addTo(mapInstance);
                 
                 if (isFullscreen) fullscreenMap = mapInstance;
                 else map = mapInstance;
             }
-            
-            // Clear existing markers
+
+            // Clear all existing report markers
             markers.forEach(marker => marker.remove());
             markers = [];
-            
+
             // Add markers for each report
             reports.forEach(report => {
                 const marker = L.marker([report.lat, report.lon], { icon: getIcon(report.type) })
@@ -1811,7 +2147,7 @@
                             <h4 style="font-weight: bold; margin-bottom: 8px; color: #3b82f6;">${report.title}</h4>
                             <p style="margin: 4px 0;"><strong>Location:</strong> ${report.location}</p>
                             <p style="margin: 4px 0;"><strong>Severity:</strong> <span style="color: ${getSeverityColor(report.severity)}">${report.severity}</span></p>
-                             <p style="margin: 4px 0;"><strong>Status:</strong> ${report.status}</p>
+                            <p style="margin: 4px 0;"><strong>Status:</strong> ${report.status}</p>
                             <p style="margin: 4px 0;"><strong>Type:</strong> ${report.type}</p>
                             <small style="color: #9ca3af;">${report.time}</small>
                             <div style="margin-top: 10px;">
@@ -1821,19 +2157,53 @@
                     `);
                 markers.push(marker);
             });
-            
-            // Add a circle around high severity reports
-            reports.filter(r => r.severity === 'High').forEach(report => {
-                const circle = L.circle([report.lat, report.lon], {
-                    color: 'red',
-                    fillColor: '#f87171',
-                    fillOpacity: 0.2,
-                    radius: 50000
-                }).addTo(mapInstance);
-                markers.push(circle);
-            });
-            
+
             setTimeout(() => mapInstance.invalidateSize(), 100);
+        }
+
+        function toggleMapLayer(mapId, layerType) {
+            const mapInstance = (mapId === 'map' ? map : fullscreenMap);
+            if (!mapInstance) return;
+
+            // Remove all existing layers first
+            mapInstance.eachLayer(layer => {
+                // Keep markers if a marker layer
+                if (layer instanceof L.Marker || layer instanceof L.Circle) {
+                    mapInstance.removeLayer(layer);
+                }
+            });
+
+            // Re-add base layer and markers
+            if (layerType === 'satellite') {
+                if (mapInstance.hasLayer(osmLayer)) {
+                    mapInstance.removeLayer(osmLayer);
+                }
+                satelliteLayer.addTo(mapInstance);
+            } else { // Default to OSM/Roadmap
+                if (mapInstance.hasLayer(satelliteLayer)) {
+                    mapInstance.removeLayer(satelliteLayer);
+                }
+                osmLayer.addTo(mapInstance);
+            }
+            
+            // Re-add all markers
+            reports.forEach(report => {
+                L.marker([report.lat, report.lon], { icon: getIcon(report.type) }).addTo(mapInstance);
+            });
+
+
+            // Add heatmap circles if required
+            if (layerType === 'heatmap') {
+                reports.filter(r => r.severity === 'High').forEach(report => {
+                    const circle = L.circle([report.lat, report.lon], {
+                        color: 'red',
+                        fillColor: '#ef4444',
+                        fillOpacity: 0.3,
+                        radius: 50000
+                    }).addTo(mapInstance);
+                    // No need to add markers again, they are already being added.
+                });
+            }
         }
         
         function getIcon(type) {
@@ -2108,40 +2478,46 @@
         
         function initAnalyticsCharts() {
             const reportsCtx = document.getElementById('reports-chart');
+            if (reportsChart) {
+                reportsChart.destroy();
+            }
             if (reportsCtx) {
                  reportsChart = new Chart(reportsCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                        datasets: [{
-                            label: 'Reports This Week',
-                            data: [12, 19, 3, 5, 2, 3, 9],
-                            borderColor: 'rgba(59, 130, 246, 1)',
-                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                            fill: true,
-                            tension: 0.4,
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                                ticks: { color: 'rgba(255, 255, 255, 0.7)' }
-                            },
-                            x: {
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                                ticks: { color: 'rgba(255, 255, 255, 0.7)' }
-                            }
-                        },
-                        plugins: {
-                            legend: { labels: { color: 'rgba(255, 255, 255, 0.7)' } }
-                        }
-                    }
-                });
+                     type: 'line',
+                     data: {
+                         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                         datasets: [{
+                             label: 'Reports This Week',
+                             data: [12, 19, 3, 5, 2, 3, 9],
+                             borderColor: 'rgba(59, 130, 246, 1)',
+                             backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                             fill: true,
+                             tension: 0.4,
+                         }]
+                     },
+                     options: {
+                         scales: {
+                             y: {
+                                 beginAtZero: true,
+                                 grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                 ticks: { color: 'rgba(255, 255, 255, 0.7)' }
+                             },
+                             x: {
+                                 grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                 ticks: { color: 'rgba(255, 255, 255, 0.7)' }
+                             }
+                         },
+                         plugins: {
+                             legend: { labels: { color: 'rgba(255, 255, 255, 0.7)' } }
+                         }
+                     }
+                 });
             }
 
             const typesCtx = document.getElementById('types-chart');
+            if(typesChart) {
+                typesChart.destroy();
+            }
             if (typesCtx) {
                 typesChart = new Chart(typesCtx, {
                     type: 'doughnut',
@@ -2166,7 +2542,9 @@
                     }
                 });
             }
-
+        }
+        
+        function populateReportsTable() {
             const tableBody = document.getElementById('reports-table-body');
             if(tableBody){
                 tableBody.innerHTML = '';
@@ -2174,16 +2552,16 @@
                     const row = document.createElement('tr');
                     row.className = 'border-b border-gray-700 hover:bg-gray-800/50';
                     row.innerHTML = `
-                        <td class="p-3">${r.id}</td>
-                        <td class="p-3">${r.title}</td>
-                        <td class="p-3">${r.location}</td>
-                        <td class="p-3"><span class="px-2 py-1 rounded-full text-xs ${getSeverityBadgeClass(r.severity)}">${r.severity}</span></td>
-                        <td class="p-3"><span class="px-2 py-1 rounded-full text-xs ${getStatusBadgeClass(r.status)}">${r.status}</span></td>
-                        <td class="p-3">${r.time}</td>
-                        <td class="p-3">
-                            <button class="text-blue-400 hover:text-blue-300"><i class="fas fa-eye"></i></button>
-                            <button class="text-gray-400 hover:text-gray-300 ml-2"><i class="fas fa-edit"></i></button>
-                        </td>
+                         <td class="p-3">${r.id}</td>
+                         <td class="p-3">${r.title}</td>
+                         <td class="p-3">${r.location}</td>
+                         <td class="p-3"><span class="px-2 py-1 rounded-full text-xs ${getSeverityBadgeClass(r.severity)}">${r.severity}</span></td>
+                         <td class="p-3"><span class="px-2 py-1 rounded-full text-xs ${getStatusBadgeClass(r.status)}">${r.status}</span></td>
+                         <td class="p-3">${r.time}</td>
+                         <td class="p-3">
+                             <button class="text-blue-400 hover:text-blue-300"><i class="fas fa-eye"></i></button>
+                             <button class="text-gray-400 hover:text-gray-300 ml-2"><i class="fas fa-edit"></i></button>
+                         </td>
                     `;
                     tableBody.appendChild(row);
                 });
@@ -2192,6 +2570,9 @@
         
         function initMiniChart() {
             const miniCtx = document.getElementById('mini-chart');
+             if (miniChart) {
+                miniChart.destroy();
+            }
             if (miniCtx) {
                 miniChart = new Chart(miniCtx, {
                     type: 'bar',
@@ -2280,6 +2661,268 @@
                     showNotification('New hazard report received');
                 }
             }, 10000);
+        }
+
+        // --- NEW FUNCTIONS FOR TEAM PAGE ---
+        function renderTeamView() {
+            const container = document.getElementById('team-members-container');
+            if(!container) return;
+            container.innerHTML = '';
+            teamMembers.forEach(member => {
+                const card = document.createElement('div');
+                card.className = 'bg-gray-900/50 p-6 rounded-xl border border-gray-700 text-center enhanced-card';
+                card.innerHTML = `
+                    <img src="${member.avatar}" alt="${member.name}" class="w-24 h-24 mx-auto rounded-full mb-4 border-2 border-blue-400">
+                    <h3 class="text-xl font-semibold text-white">${member.name}</h3>
+                    <p class="text-sm text-blue-400 mb-2">${member.role}</p>
+                    <p class="text-sm text-gray-400">${member.email}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+        // --- END NEW FUNCTIONS ---
+
+        // Theme and Language Functions
+        function applyTheme() {
+            const theme = localStorage.getItem('theme') || 'system';
+            const themeIcon = document.querySelector('#theme-toggle-btn i');
+            const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            
+            if (isDark) {
+                document.body.classList.remove('light-theme');
+                document.body.classList.add('dark-theme');
+                themeIcon.className = 'fas fa-moon text-xl';
+            } else {
+                document.body.classList.add('light-theme');
+                document.body.classList.remove('dark-theme');
+                themeIcon.className = 'fas fa-sun text-xl';
+            }
+        }
+        
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+
+        const translations = {
+             en: {
+                 dashboard_title: "Dashboard",
+                 submit_new_report: "Submit New Report",
+                 total_reports: "Total Reports",
+                 from_last_week: "from last week",
+                 verified_incidents: "Verified Incidents",
+                 active_hotspots: "Active Hotspots",
+                 critical_hotspots: "3 critical",
+                 response_time: "Response Time",
+                 improvement: "improvement",
+                 live_hazard_map: "Live Hazard Map - India Focus",
+                 heatmap: "Heatmap",
+                 satellite: "Satellite",
+                 recent_reports: "Recent Reports",
+                 view_all: "View All",
+                 hazard_distribution: "Hazard Distribution",
+                 active_warnings: "Active Warnings",
+                 high_wave_alert: "High Wave Alert",
+                 eastern_coast_alert: "Eastern Coast - Until 8:00 PM tomorrow",
+                 storm_warning: "Storm Warning",
+                 western_region_alert: "Western Region - Starting in 6 hours",
+                 community_social_feed: "Community & Social Feed",
+                 all: "All",
+                 dashboard: "Dashboard",
+                 analytics: "Analytics",
+                 live_map: "Live Map",
+                 reports: "Reports",
+                 alerts: "Alerts",
+                 social_feed: "Social Feed",
+                 resources: "Resources",
+                 team_title: "Team",
+                 settings: "Settings",
+                 active_warnings_sidebar: "2 active warnings in your area",
+                 meet_the_team: "Meet The Team"
+             },
+             hi: {
+                 dashboard_title: "डैशबोर्ड",
+                 submit_new_report: "नई रिपोर्ट भेजें",
+                 total_reports: "कुल रिपोर्ट",
+                 from_last_week: "पिछले हफ्ते से",
+                 verified_incidents: "सत्यापित घटनाएं",
+                 active_hotspots: "सक्रिय हॉटस्पॉट",
+                 critical_hotspots: "3 गंभीर",
+                 response_time: "प्रतिक्रिया समय",
+                 improvement: "सुधार",
+                 live_hazard_map: "लाइव हैज़र्ड मैप - भारत फोकस",
+                 heatmap: "हीटमैप",
+                 satellite: "सैटेलाइट",
+                 recent_reports: "हाल की रिपोर्ट",
+                 view_all: "सभी देखें",
+                 hazard_distribution: "खतरे का वितरण",
+                 active_warnings: "सक्रिय चेतावनियाँ",
+                 high_wave_alert: "ऊँची लहर की चेतावनी",
+                 eastern_coast_alert: "पूर्वी तट - कल रात 8:00 बजे तक",
+                 storm_warning: "तूफान की चेतावनी",
+                 western_region_alert: "पश्चिमी क्षेत्र - 6 घंटे में शुरू",
+                 community_social_feed: "सामुदायिक और सोशल फ़ीड",
+                 all: "सभी",
+                 dashboard: "डैशबोर्ड",
+                 analytics: "एनालिटिक्स",
+                 live_map: "लाइव मैप",
+                 reports: "रिपोर्ट",
+                 alerts: "अलर्ट",
+                 social_feed: "सोशल फ़ीड",
+                 resources: "संसाधन",
+                 team_title: "टीम",
+                 settings: "सेटिंग्स",
+                 active_warnings_sidebar: "आपके क्षेत्र में 2 सक्रिय चेतावनियाँ",
+                 meet_the_team: "हमारी टीम से मिलें"
+             },
+             bn: {
+                 dashboard_title: "ড্যাশবোর্ড",
+                 submit_new_report: "নতুন রিপোর্ট জমা দিন",
+                 total_reports: "মোট রিপোর্ট",
+                 from_last_week: "গত সপ্তাহ থেকে",
+                 verified_incidents: "যাচাইকৃত ঘটনা",
+                 active_hotspots: "সক্রিয় হটস্পট",
+                 critical_hotspots: "3টি গুরুতর",
+                 response_time: "প্রতিক্রিয়ার সময়",
+                 improvement: "উন্নতি",
+                 live_hazard_map: "লাইভ হ্যাজার্ড ম্যাপ - ভারত ফোকাস",
+                 heatmap: "হিটম্যাপ",
+                 satellite: "স্যাটেলাইট",
+                 recent_reports: "সাম্প্রতিক রিপোর্ট",
+                 view_all: "সব দেখুন",
+                 hazard_distribution: "বিপদের বন্টন",
+                 active_warnings: "সক্রিয় সতর্কতা",
+                 high_wave_alert: "উচ্চ তরঙ্গ সতর্কতা",
+                 eastern_coast_alert: "পূর্ব উপকূল - আগামীকাল রাত ৮টা পর্যন্ত",
+                 storm_warning: "ঝড়ের সতর্কতা",
+                 western_region_alert: "পশ্চিম অঞ্চল - ৬ ঘন্টা থেকে শুরু",
+                 community_social_feed: "কমিউনিটি ও সোশ্যাল ফিড",
+                 all: "সব",
+                 dashboard: "ড্যাশবোর্ড",
+                 analytics: "অ্যানালিটিক্স",
+                 live_map: "লাইভ ম্যাপ",
+                 reports: "রিপোর্ট",
+                 alerts: "সতর্কতা",
+                 social_feed: "সোশ্যাল ফিড",
+                 resources: "সম্পদ",
+                 team_title: "টিম",
+                 settings: "সেটিংস",
+                 active_warnings_sidebar: "আপনার এলাকায় ২টি সক্রিয় সতর্কতা",
+                 meet_the_team: "আমাদের দলের সাথে পরিচিত হন"
+             },
+             te: {
+                 dashboard_title: "డాష్‌బోర్డ్",
+                 submit_new_report: "కొత్త నివేదికను సమర్పించండి",
+                 total_reports: "మొత్తం నివేదికలు",
+                 from_last_week: "గత వారం నుండి",
+                 verified_incidents: "ధృవీకరించబడిన సంఘటనలు",
+                 active_hotspots: "క్రియాశీల హాట్‌స్పాట్‌లు",
+                 critical_hotspots: "3 క్లిష్టమైనవి",
+                 response_time: "ప్రతిస్పందన సమయం",
+                 improvement: "మెరుగుదల",
+                 live_hazard_map: "లైవ్ హజార్డ్ మ్యాప్ - ఇండియా ఫోకస్",
+                 heatmap: "హీట్‌మ్యాప్",
+                 satellite: "శాటిలైట్",
+                 recent_reports: "ఇటీవలి నివేదికలు",
+                 view_all: "అన్నీ చూడండి",
+                 hazard_distribution: "ప్రమాద పంపిణీ",
+                 active_warnings: "క్రియాశీల హెచ్చరికలు",
+                 high_wave_alert: "అధిక అలల హెచ్చరిక",
+                 eastern_coast_alert: "తూర్పు తీరం - రేపు రాత్రి 8:00 వరకు",
+                 storm_warning: "తుఫాను హెచ్చరిక",
+                 western_region_alert: "పశ్చిమ ప్రాంతం - 6 గంటల్లో ప్రారంభం",
+                 community_social_feed: "కమ్యూనిటీ & సోషల్ ఫీడ్",
+                 all: "అన్నీ",
+                 dashboard: "డాష్‌బోర్డ్",
+                 analytics: "విశ్లేషణలు",
+                 live_map: "లైవ్ మ్యాప్",
+                 reports: "నివేదికలు",
+                 alerts: "ఎచ్చరికలు",
+                 social_feed: "సోషల్ ఫీడ్",
+                 resources: "వనరులు",
+                 team_title: "బృందం",
+                 settings: "సెట్టింగ్‌లు",
+                 active_warnings_sidebar: "మీ ప్రాంతంలో 2 క్రియాశీల హెచ్చరికలు",
+                 meet_the_team: "బృందాన్ని కలవండి"
+             },
+             mr: {
+                 dashboard_title: "डॅशबोर्ड",
+                 submit_new_report: "नवीन अहवाल सादर करा",
+                 total_reports: "एकूण अहवाल",
+                 from_last_week: "गेल्या आठवड्यापासून",
+                 verified_incidents: "सत्यापित घटना",
+                 active_hotspots: "सक्रिय हॉटस्पॉट",
+                 critical_hotspots: "3 गंभीर",
+                 response_time: "प्रतिसाद वेळ",
+                 improvement: "सुधारणा",
+                 live_hazard_map: "थेट धोका नकाशा - भारत फोकस",
+                 heatmap: "हीटमॅप",
+                 satellite: "उपग्रह",
+                 recent_reports: "अलीकडील अहवाल",
+                 view_all: "सर्व पहा",
+                 hazard_distribution: "धोका वितरण",
+                 active_warnings: "सक्रिय सूचना",
+                 high_wave_alert: "उच्च लाट सूचना",
+                 eastern_coast_alert: "पूर्व किनारपट्टी - उद्या रात्री ८:०० पर्यंत",
+                 storm_warning: "वादळाचा इशारा",
+                 western_region_alert: "पश्चिम विभाग - ६ तासांत सुरू",
+                 community_social_feed: "समुदाय आणि सामाजिक फीड",
+                 all: "सर्व",
+                 dashboard: "डॅशबोर्ड",
+                 analytics: "विश्लेषण",
+                 live_map: "थेट नकाशा",
+                 reports: "अहवाल",
+                 alerts: "सूचना",
+                 social_feed: "सामाजिक फीड",
+                 resources: " संसाधने",
+                 team_title: "टीम",
+                 settings: "सेटिंग्ज",
+                 active_warnings_sidebar: "तुमच्या परिसरात २ सक्रिय सूचना",
+                 meet_the_team: "टीमशी भेटा"
+             },
+             ta: {
+                 dashboard_title: "டாஷ்போர்டு",
+                 submit_new_report: "புதிய அறிக்கையைச் சமர்ப்பிக்கவும்",
+                 total_reports: "மொத்த அறிக்கைகள்",
+                 from_last_week: "கடந்த வாரத்திலிருந்து",
+                 verified_incidents: "சரிபார்க்கப்பட்ட சம்பவங்கள்",
+                 active_hotspots: "செயலில் உள்ள ஹாட்ஸ்பாட்கள்",
+                 critical_hotspots: "3 முக்கியமானவை",
+                 response_time: "பதிலளிப்பு நேரம்",
+                 improvement: "மேம்பாடு",
+                 live_hazard_map: "நேரடி அபாய வரைபடம் - இந்தியா ஃபோகஸ்",
+                 heatmap: "ஹீட்மேப்",
+                 satellite: "செயற்கைக்கோள்",
+                 recent_reports: "சமீபத்திய அறிக்கைகள்",
+                 view_all: "அனைத்தையும் காட்டு",
+                 hazard_distribution: "அபாய விநியோகம்",
+                 active_warnings: "செயலில் உள்ள எச்சரிக்கைகள்",
+                 high_wave_alert: "உயர் அலை எச்சரிக்கை",
+                 eastern_coast_alert: "கிழக்கு கடற்கரை - நாளை இரவு 8:00 மணி வரை",
+                 storm_warning: "புயல் எச்சரிக்கை",
+                 western_region_alert: "மேற்குப் பகுதி - 6 மணி நேரத்தில் தொடங்கும்",
+                 community_social_feed: "சமூகம் & சமூக ஊட்டம்",
+                 all: "அனைத்தும்",
+                 dashboard: "டாஷ்போர்டு",
+                 analytics: "பகுப்பாய்வு",
+                 live_map: "நேரடி வரைபடம்",
+                 reports: "அறிக்கைகள்",
+                 alerts: "எச்சரிக்கைகள்",
+                 social_feed: "சமூக ஊட்டம்",
+                 resources: "வளங்கள்",
+                 team_title: "குழு",
+                 settings: "அமைப்புகள்",
+                 active_warnings_sidebar: "உங்கள் பகுதியில் 2 செயலில் உள்ள எச்சரிக்கைகள்",
+                 meet_the_team: "குழுவைச் சந்திக்கவும்"
+             }
+        };
+
+        function applyLanguage() {
+            const lang = localStorage.getItem('language') || 'en';
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(el => {
+                const key = el.dataset.translate;
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
         }
         
         init();
